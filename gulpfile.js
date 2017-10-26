@@ -185,6 +185,11 @@ gulp.task('watch', function() {
     gulp.watch(['src/**/*.js', 'src/**/*.css', 'src/**/*.html', 'src/**/*.vs', 'src/**/*.fs'], ["build"]);
 });
 
+// RH: Added for my own local setup
+gulp.task('copy', function () {
+    gulp.src('./build/potree/potree.js')
+        .pipe(gulp.dest('../../potree/libs/potree/'));
+});
 
 var encodeWorker = function(fileName, opt){
 	if (!fileName) throw new PluginError('gulp-concat',  'Missing fileName option for gulp-concat');
