@@ -1307,7 +1307,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		let width = this.renderArea.clientWidth;
 		let height = this.renderArea.clientHeight;
 
-		this.renderer = new THREE.WebGLRenderer({premultipliedAlpha: false});
+		this.renderer = new THREE.WebGLRenderer({alpha: Potree.useAlpha, premultipliedAlpha: false, preserveDrawingBuffer:Potree.preserveDrawingBuffer});
 		this.renderer.sortObjects = false;
 		this.renderer.setSize(width, height);
 		this.renderer.autoClear = false;
