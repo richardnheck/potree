@@ -609,6 +609,14 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 	// ------------------------------------------------------------------------------------
 	// Viewer API
 	// ------------------------------------------------------------------------------------
+	renderToImage() {
+		requestAnimationFrame(this.renderToImage.bind(this));
+		this.renderer.render(this.scene, this.scene.getActiveCamera());
+		var imgData = this.renderer.domElement.toDataURL();
+		return imgData;
+	}
+
+
 
 	setScene (scene) {
 		if (scene === this.scene) {
@@ -1307,7 +1315,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		let width = this.renderArea.clientWidth;
 		let height = this.renderArea.clientHeight;
 
-		this.renderer = new THREE.WebGLRenderer({premultipliedAlpha: false});
+		this.renderer = new THREE.WebGLRenderer({alpha: Potree.useAlpha, premultipliedAlpha: false, preserveDrawingBuffer: Potree.preserveDrawingBuffer });
 		this.renderer.sortObjects = false;
 		this.renderer.setSize(width, height);
 		this.renderer.autoClear = false;
@@ -1777,6 +1785,9 @@ class PotreeRenderer {
 			viewer.renderer.clear(true, true, false);
 		}else if(viewer.background === "white"){
 			viewer.renderer.setClearColor(0xFFFFFF, 1);
+			viewer.renderer.clear(true, true, false);
+		}else if(viewer.background === "transparent"){
+			viewer.renderer.setClearColor(0x000000, 0);
 			viewer.renderer.clear(true, true, false);
 		}
 		
