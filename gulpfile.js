@@ -187,9 +187,8 @@ gulp.task('watch', function() {
 
 gulp.task('copy', function () {
     gulp.src('./build/potree/potree.js')
-        .pipe(gulp.dest('../../potree/libs/potree/'));
+        .pipe(gulp.dest('../vCommerceDemo/potree/libs/potree/'));
 });
-
 
 var encodeWorker = function(fileName, opt){
 	if (!fileName) throw new PluginError('gulp-concat',  'Missing fileName option for gulp-concat');
