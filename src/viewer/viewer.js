@@ -605,7 +605,9 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		// start rendering!
 		requestAnimationFrame(this.loop.bind(this));
 
+		
 		this.loadGUI = this.loadGUI.bind(this);
+		
 	}
 
 	// ------------------------------------------------------------------------------------
@@ -1245,6 +1247,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 	};
 
 	loadGUI (callback) {
+		if(!Potree.usePotreeMenu) { return; }
 		let viewer = this;
 		let sidebarContainer = $('#potree_sidebar_container');
 		sidebarContainer.load(new URL(Potree.scriptPath + '/sidebar.html').href, () => {
