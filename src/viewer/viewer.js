@@ -380,8 +380,10 @@ Potree.Scene = class extends THREE.EventDispatcher{
 		let light = new THREE.AmbientLight( 0x555555 ); // soft white light
 		this.scenePointCloud.add( light );
 		
-		let grid = Potree.utils.createGrid(5, 5, 2);
-		this.scene.add(grid);
+		if(Potree.showGrid) {
+			let grid = Potree.utils.createGrid(5, 5, 2);
+			this.scene.add(grid);
+		}
 
 		{ // background
 		// var texture = THREE.ImageUtils.loadTexture( Potree.resourcePath + '/textures/background.gif' );
@@ -1315,7 +1317,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		let width = this.renderArea.clientWidth;
 		let height = this.renderArea.clientHeight;
 
-		this.renderer = new THREE.WebGLRenderer({alpha: Potree.useAlpha, premultipliedAlpha: false, preserveDrawingBuffer: Potree.preserveDrawingBuffer });
+		this.renderer = new THREE.WebGLRenderer({alpha: Potree.useAlpha, premultipliedAlpha: false, preserveDrawingBuffer:Potree.preserveDrawingBuffer});
 		this.renderer.sortObjects = false;
 		this.renderer.setSize(width, height);
 		this.renderer.autoClear = false;
@@ -1786,7 +1788,7 @@ class PotreeRenderer {
 		}else if(viewer.background === "white"){
 			viewer.renderer.setClearColor(0xFFFFFF, 1);
 			viewer.renderer.clear(true, true, false);
-		}else if(viewer.background === "transparent"){
+		}	else if(viewer.background === "transparent"){
 			viewer.renderer.setClearColor(0x000000, 0);
 			viewer.renderer.clear(true, true, false);
 		}
