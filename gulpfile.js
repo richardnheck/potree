@@ -187,7 +187,7 @@ gulp.task('watch', function() {
 
 gulp.task('copy', function () {
     gulp.src('./build/potree/potree.js')
-        .pipe(gulp.dest('../vCommerceDemo/potree/libs/potree/'));
+        .pipe(gulp.dest('../../potree-clouds/libs/potree/'));
 });
 
 var encodeWorker = function(fileName, opt){
