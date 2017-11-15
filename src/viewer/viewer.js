@@ -1798,6 +1798,11 @@ class PotreeRenderer {
 		
 		for(let pointcloud of this.viewer.scene.pointclouds){
 			pointcloud.material.useEDL = false;
+
+			if(pointcloud && Potree.showStats){
+                document.getElementById("lblNumVisibleNodes").innerHTML = "visible nodes: " + pointcloud.numVisibleNodes;
+                document.getElementById("lblNumVisiblePoints").innerHTML = "visible points: " + Potree.utils.addCommas(pointcloud.numVisiblePoints);
+            }
 		}
 		
 		//var queryPC = Potree.startQuery("PointCloud", viewer.renderer.getContext());
