@@ -14,6 +14,7 @@ Potree.pointBudget = 1 * 1000 * 1000;
 
 Potree.framenumber = 0;
 
+Potree.showStats = true;
 Potree.showGrid = true;
 Potree.usePotreeMenu = true;
 // contains WebWorkers with base64 encoded code
