@@ -1744,6 +1744,10 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 class PotreeRenderer {
 	constructor (viewer) {
 		this.viewer = viewer;
+
+		this.startTime = new Date().getTime();
+		this.i = 0;
+		this.isCalculatingLoadTime = true;
 	};
  
 	render(){
@@ -1810,6 +1814,12 @@ class PotreeRenderer {
 		viewer.renderer.render(viewer.scene.scenePointCloud, activeCam);
 		//Potree.endQuery(queryPC, viewer.renderer.getContext());
 		
+		
+
+
+
+
+
 		// render scene
 		viewer.renderer.render(viewer.scene.scene, activeCam);
 		
@@ -1838,6 +1848,21 @@ class PotreeRenderer {
 		viewer.renderer.render(viewer.navigationCube, viewer.navigationCube.camera);		
 		viewer.renderer.setViewport(0, 0, viewer.renderer.domElement.clientWidth, viewer.renderer.domElement.clientHeight);
 		
+		// Calculate the load time
+		this.i++;
+		if(this.i%10 == 0 && this.isCalculatingLoadTime) {
+			var gl = viewer.renderer.context;
+			var width = viewer.renderArea.clientWidth;
+			var height = viewer.renderArea.clientHeight;
+			
+			var bufDim = 1;
+			var pixels = new Uint8Array(bufDim * bufDim * 4);
+			gl.readPixels(width/2,height/2,bufDim,bufDim, gl.RGBA, gl.UNSIGNED_BYTE, pixels);
+			if(pixels[0] > 0) {
+				document.getElementById("lblMessage").innerHTML = "time: " + (new Date().getTime() - this.startTime) + 'ms';
+				this.isCalculatingLoadTime = false;
+			}
+		}
 		
 		//Potree.endQuery(queryAll, viewer.renderer.getContext());
 		
