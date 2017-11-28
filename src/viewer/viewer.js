@@ -1795,8 +1795,12 @@ class PotreeRenderer {
 		}else if(viewer.background === "white"){
 			viewer.renderer.setClearColor(0xFFFFFF, 1);
 			viewer.renderer.clear(true, true, false);
-		}	else if(viewer.background === "transparent"){
+		} else if(viewer.background === "transparent"){
 			viewer.renderer.setClearColor(0x000000, 0);
+			viewer.renderer.clear(true, true, false);
+		}
+		else if(viewer.background === "gray"){
+			viewer.renderer.setClearColor(0x2C2C2C, 0);
 			viewer.renderer.clear(true, true, false);
 		}
 		
@@ -1936,6 +1940,7 @@ class EDLRenderer {
 	}
 
 	render () {
+		console.log('------------------render-------------');
 		this.initEDL();
 		const viewer = this.viewer;
 
@@ -1960,6 +1965,9 @@ class EDLRenderer {
 			viewer.renderer.clear();
 		} else if (viewer.background === 'white') {
 			viewer.renderer.setClearColor(0xFFFFFF, 0);
+			viewer.renderer.clear();
+		} else if (viewer.background === 'gray') {
+			viewer.renderer.setClearColor(0x2C2C2C, 0);
 			viewer.renderer.clear();
 		}
 
