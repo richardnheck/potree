@@ -187,7 +187,13 @@ gulp.task('watch', function() {
 
 gulp.task('copy', function () {
     gulp.src('./build/potree/potree.js')
-        .pipe(gulp.dest('../../potree-clouds/libs/potree/'));
+		.pipe(gulp.dest('../../potree-clouds/libs/potree/'));
+		gulp.src('./src/viewer/potree.css')
+		.pipe(gulp.dest('../../potree-clouds/libs/potree/'));
+	gulp.src('./src/viewer/sidebar.html')
+		.pipe(gulp.dest('../../potree-clouds/libs/potree/'));
+	gulp.src('./resources/icons/*.*')
+        .pipe(gulp.dest('../../potree-clouds/libs/potree/resources/icons'));
 });
 
 var encodeWorker = function(fileName, opt){
