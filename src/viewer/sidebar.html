@@ -2,7 +2,7 @@
 <div id="sidebar_root" 
 	class="perfect_scrollbar navmenu navmenu-default navmenu-fixed-left unselectable" 
 	style="position: absolute; min-height: 100%; height: 100%; width: calc(100% - 1px); border-right: 1px solid black !important; overflow: hidden">
-	<div id="sidebar_header">
+	<div id="sidebar_header" style="display:none">
 		<span id="potree_branding" class="potree_sidebar_brand" style="display: flex; flex-direction: row">
 			<a href="http://potree.org" target="_blank">potree.org</a> 
 			<span style="margin: 0px 3px; color: #9AA1A4"> - </span> 
@@ -24,13 +24,14 @@
 	<div id="potree_menu" class="accordion">
 	
 		<!-- APPEARANCE -->
-		<h3 id="menu_appearance"><span data-i18n="tb.rendering_opt"></span></h3>
+		<!--<h3 id="menu_appearance"><span data-i18n="tb.rendering_opt"></span></h3>-->
 		<div>
 			<ul class="pv-menu-list">
-			<li><span data-i18n="appearance.nb_max_pts"></span>:<span id="lblPointBudget"></span> <div id="sldPointBudget"></div>	</li>
+			<li><span data-i18n="___appearance.nb_max_pts">Points</span>:<span id="lblPointBudget"></span> <div id="sldPointBudget"></div>	</li>
 			<li><span data-i18n="appearance.field_view"></span>:<span id="lblFOV"></span><div id="sldFOV"></div>					</li>		
-		   
-			<div>
+			
+				
+			<div style="display:none">
 				<div class="divider">
 					<span>Eye-Dome-Lighting</span>
 				</div>
@@ -40,7 +41,7 @@
 				<li><span data-i18n="appearance.edl_strength"></span>:<span id="lblEDLStrength"></span><div id="sldEDLStrength"></div></li>
 			</div>
 			
-			<div>
+			<div style="display:none">
 				<div class="divider">
 					<span>Background</span>
 				</div>
@@ -56,29 +57,33 @@
 		</div>
 		
 		<!-- TOOLS -->
-		<h3 id="menu_tools"><span data-i18n="tb.tools_opt"></span></h3>
+		<!--<h3 id="menu_tools"><span data-i18n="tb.tools_opt"></span></h3>-->
 		<div class="pv-menu-list">
-			<li id="tools"></li>
+			<li id="tools" style="display:none"></li>
 			
 			<div class="divider" style="padding: 10px 0px 15px 0px">
 				<span>Navigation</span>
 			</div>
 			<li id="navigation"></li>
+			<!--
 			<li><span data-i18n="appearance.move_speed"></span>: <span id="lblMoveSpeed"></span><div id="sldMoveSpeed"></div></li>
+			-->
 		</div>
 
 	  
 		<!-- MEASUREMENTS -->
-		<h3 id="menu_measurements"><span data-i18n="tb.measurments_opt"></span></h3>
+		<!--<h3 id="menu_measurements"><span data-i18n="tb.measurments_opt"></span></h3>-->
+		<!--
 		<div id="measurement_details">
-			<!-- <ul class="pv-menu-list selectable" id="measurement_details"></ul> -->
+			
 		
 			<div id="measurement_list_before" style="margin: 6px 2px 6px 2px"></div>
 			<div id="measurement_list"></div>
 			<div id="measurement_list_after" style="margin: 6px 2px 6px 2px"></div>			
 		</div>
-
+		-->
 		<!-- CLIPPING -->
+		<!--
 		<h3 id="menu_clipping"><span data-i18n="tb.clipping_opt"></span></h3>
 		<div>
 			<ul class="pv-menu-list">
@@ -111,20 +116,25 @@
 				<div id="clipping_volumes_list_after" style="margin: 6px 2px 12px 2px"></div>
 			</div>
 		</div>
-	  
+	-->
 		<!-- ANNOTATIONS -->
+		<!--
 		<h3 id="menu_annotations"><span data-i18n="tb.annotations_opt"></span></h3>
 		<div>
 			<ul class="pv-menu-list selectable" id="annotation_details"></ul>
 		</div>
-	
-		<!-- Scene -->
-		<h3 id="menu_scene"><span data-i18n="tb.scene_opt"></span></h3>
+	-->
+		<!--
+	<div class="divider" style="padding: 10px 0px 15px 0px">
+		<span>Scene</span>
+	</div>
+-->
+		<!--<h3 id="menu_scene"><span data-i18n="tb.scene_opt"></span></h3>-->
 		<div>
-			<ul class="pv-menu-list selectable">
+			<ul class="pv-menu-list selectable" style="display:none">
 				<div>
-					<li><span data-i18n="scene.camera_position"></span>:<span id="lblCameraPosition"></span></li>
-					<li><span data-i18n="scene.camera_target"></span>:<span id="lblCameraTarget"></span></li>
+					<li style="display:none"><span data-i18n="scene.camera_position"></span>:<span id="lblCameraPosition"></span></li>
+					<li style="display:none"><span data-i18n="scene.camera_target"></span>:<span id="lblCameraTarget"></span></li>
 					<li style="margin: 10px 0px">						
 						<label for="optLengthUnit" class="pv-select-label"><span data-i18n="appearance.length_unit"></span></label>
 					    <select id="optLengthUnit" name="optLengthUnit">
@@ -151,14 +161,15 @@
 		</div>
 	
 		<!-- Classification -->
+		<!--
 		<h3 id="menu_classification"><span data-i18n="tb.classification_filter_opt"></span></h3>
 		<div>
 			<ul id="classificationList" class="pv-menu-list"></ul>
 		</div>
-	
+	-->
 		<!-- Other Settings -->
-		<h3 id="menu_other_settings"><span data-i18n="tb.parameters_opt"></span></h3>
-		<div>
+		<h3 id="menu_other_settings" style="display:none"><span data-i18n="tb.parameters_opt"></span></h3>
+		<div style="display:none">
 			<ul class="pv-menu-list">
 				<li><span data-i18n="appearance.min_node_size"></span><span id="lblMinNodeSize"></span><div id="sldMinNodeSize"></div>	</li>
 				<!--<li>
@@ -174,8 +185,8 @@
 			</ul>
 		  </div>
 		  
-		  <h3 id="menu_about"><span data-i18n="tb.about_opt"></span></h3>
-		  <div>
+		  <h3 id="menu_about" style="display:none"><span data-i18n="tb.about_opt"></span></h3>
+		  <div style="display:none">
 			<ul class="pv-menu-list">
 				<li><a href="http://potree.org" target="_blank">Potree</a> is a viewer for large point cloud / LIDAR data sets, developed at the Vienna University of Technology. 
 				<a href="https://github.com/potree/potree" target="_blank">(github)</a>
