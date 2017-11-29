@@ -297,6 +297,7 @@ initSidebar = (viewer) => {
 			function () { viewer.fitToScreen(); }
 		));
 
+		/*
 		elNavigation.append(createToolIcon(
 			Potree.resourcePath + '/icons/topview.svg',
 			'[title]tt.top_view_control',
@@ -320,6 +321,7 @@ initSidebar = (viewer) => {
 			"[title]tt.navigation_cube_control",
 			function(){viewer.toggleNavigationCube()}
 		));
+		*/
 
 		elNavigation.append(createToolIcon(
 			Potree.resourcePath + "/icons/perspective-camera.svg",
@@ -2347,14 +2349,14 @@ initSidebar = (viewer) => {
 			let scenePanel = $(`
 				<span class="scene_item">
 					<!-- HEADER -->
-					<div style="float: right; margin: 6px; margin-right: 15px"><input id="scene_list_item_pointcloud_${i}" type="checkbox" ${checked} /></div>
+					<div style="float: right; margin: 6px; margin-right: 15px"><input id="scene_list_item_pointcloud_${i}" type="checkbox" class="input-vis" ${checked} /></div>
 					<div class="scene_header" onclick="$(this).next().slideToggle(200)">
 						<span class="scene_icon"><img src="${Potree.resourcePath + '/icons/cloud_icon.svg'}" class="scene_item_icon" /></span>
 						<span class="scene_header_title">${title}</span>
 					</div>
 
 					<!-- DETAIL -->
-					<div class="scene_content selectable" style="display: none">
+					<div class="scene_content selectable" style="display: block">
 						<div>
 							<ul class="pv-menu-list">
 
@@ -2363,6 +2365,7 @@ initSidebar = (viewer) => {
 							</li>
 
 							<!-- SIZE TYPE -->
+							<!--
 							<li>
 								<label for="optPointSizing_${i}" class="pv-select-label" data-i18n="appearance.point_size_type">Point Sizing </label>
 								<select id="optPointSizing_${i}" name="optPointSizing_${i}">
@@ -2371,6 +2374,16 @@ initSidebar = (viewer) => {
 									<option>ADAPTIVE</option>
 								</select>
 							</li>
+-->
+							<li>
+								<div>Adaptive Points
+									<label class="switch">
+										<input id="adaptivePointSizing_${i}" type="checkbox" checked>
+										<span class="slider round"></span>
+									</label>
+								</div>
+							</li>
+
 
 							<!--
 							Shape:
@@ -2512,6 +2525,20 @@ initSidebar = (viewer) => {
 
 					$('#optPointSizing').selectmenu().val(typename).selectmenu('refresh');
 				});
+
+				console.log('------------------ADAPTIVE POINTS---------------------');
+				let adaptivePointSizing = scenePanel.find(`#adaptivePointSizing_${i}`);
+				$(adaptivePointSizing).click(function() {
+					if ($(this)[0].checked) {
+						console.log('adaptive points');
+						pcMaterial.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+					} else {
+						console.log('fixed points');
+						pcMaterial.pointSizeType = Potree.PointSizeType.FIXED;
+					}
+				});
+				//var n = $( "input:checked" ).length;
+				console.log(adaptivePointSizing);
 			}
 
 			{ // SHAPE
@@ -2553,7 +2580,7 @@ initSidebar = (viewer) => {
 				update();
 			}
 
-			let inputVis = scenePanel.find("input[type='checkbox']");
+			let inputVis = scenePanel.find("input[type='checkbox'].input-vis");
 
 			inputVis.click(function (event) {
 				pointcloud.visible = event.target.checked;
