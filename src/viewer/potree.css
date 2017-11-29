@@ -24,15 +24,20 @@
 
 
 
+
+
+
+
+
 :root{
-	
+	--slider-color:		#00BFFF;
 	--color-0: 			rgba( 25, 40, 44, 1);
 	--color-1: 			rgba(122,129,132, 1);
 	--color-2: 			black:/*rgba( 57, 71, 75, 1);*/
 	--color-3: 			rgba( 45,109,130, 1);
 	--color-4: 			rgba( 16,143,185, 1);
 	
-	--bg-color:			black;/*var(--color-0);*/
+	--bg-color:			rgb(200,0,0,0.1);/*var(--color-0);*/
 	--bg-light-color:	rgba( 48, 61, 65, 1);
 	--bg-dark-color:	rgba( 24, 31, 33, 1);
 	--bg-hover-color:	var(--color-2);
@@ -44,6 +49,70 @@
 	--measurement-detail-node-bg-dark:		var(--color-2);
 	--measurement-detail-area-bg-color:		#eee;
 	
+}
+
+
+.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  .slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  input:checked + .slider {
+	background-color: var(--slider-color);
+  }
+  
+  input:focus + .slider {
+	box-shadow: 0 0 1px var(--slider-color);
+  }
+  
+  input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+	border-radius: 34px;
+  }
+  
+  .slider.round:before {
+	border-radius: 50%;
+  }
+
+
+/* jquery override */
+.ui-slider-horizontal {height: 0.3em !important;}
+.ui-slider-horizontal .ui-slider-handle {
+    top: -.5em !important;
 }
 
 
@@ -467,13 +536,13 @@ body{
 }
 
 .pv-menu-list > li > .ui-slider{
-	background-color: 	var(--color-1) !important;
+	background-color: 	var(--slider-color) !important;
 	background: 		none;
 	border: 			1px solid black;
 }
 
 .pv-menu-list > div > li > .ui-slider{
-	background-color: var(--color-1) !important;
+	background-color: var(--slider-color) !important;
 	background: none;
 	border: 1px solid black;
 }
