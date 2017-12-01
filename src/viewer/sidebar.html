@@ -1,7 +1,7 @@
 
 <div id="sidebar_root" 
 	class="perfect_scrollbar navmenu navmenu-default navmenu-fixed-left unselectable" 
-	style="position: absolute; min-height: 100%; height: 100%; width: calc(100% - 1px); border-right: 1px solid black !important; overflow: hidden">
+	style="position: absolute; min-height: 100%; height: 100%; width: calc(100% - 1px); border-right: 1px solid black !important; overflow: hidden; background-color:black !important">
 	<div id="sidebar_header" style="display:none">
 		<span id="potree_branding" class="potree_sidebar_brand" style="display: flex; flex-direction: row">
 			<a href="http://potree.org" target="_blank">potree.org</a> 
@@ -26,7 +26,32 @@
 		<!-- APPEARANCE -->
 		<!--<h3 id="menu_appearance"><span data-i18n="tb.rendering_opt"></span></h3>-->
 		<div>
+			<div id="vue-menu">
+				<ul class="pv-menu-list">
+					<li><span>Points:{{pointBudget}}</span><input class="ui-slider" type="range" min="100000" max="5000000" step="1000" v-bind:value="pointBudget" v-on:input="onPointBudgetChange" /></li> 
+					<li><span>FOV(deg):{{fov}}</span><input class="ui-slider" type="range" min="20" max="100" step="1" v-bind:value="fov" v-on:input="onFovChange" /></li> 
+					<li><span>Point Size:{{pcMaterialSize}}</span><input type="range" min="0" max="3" step="0.1" v-bind:value="pcMaterialSize" v-on:input="onPointSizeChange" /></li>
+					<li>
+						<span>Background</span>
+						<li><label><input type="radio" name="background" value="gradient" v-model="background"/><span>Gradient</span></label></li>
+						<li><label><input type="radio" name="background" value="gray" v-model="background"/><span>Gray</span></label></li>
+						<li><label><input type="radio" name="background" value="black" v-model="background"/><span>Black</span></label></li>
+						<li><label><input type="radio" name="background" value="white" v-model="background"/><span>White</span></label></li>
+					</li>
+					<li>
+						<span>Shape</span>
+						<li><label><input type="radio" name="shape" value="0" v-model="shape"><span>Square</span></label></li>
+						<li><label><input type="radio" name="shape" value="1" v-model="shape"><span>Round</span></label></li>
+						<li><label><input type="radio" name="shape" value="2" v-model="shape"><span>Parabloid</span></label></li>
+					</li>
+				</ul>
+			</div>
+			
+			
 			<ul class="pv-menu-list">
+
+			
+
 			<li><span data-i18n="___appearance.nb_max_pts">Points</span>:<span id="lblPointBudget"></span> <div id="sldPointBudget"></div>	</li>
 			<li><span data-i18n="appearance.field_view"></span>:<span id="lblFOV"></span><div id="sldFOV"></div>					</li>		
 			
