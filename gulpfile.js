@@ -196,6 +196,11 @@ gulp.task('copy', function () {
         .pipe(gulp.dest('../../potree-clouds/libs/potree/resources/icons'));
 });
 
+gulp.task('buildandcopy', function() {
+	gulp.run('build');
+	gulp.run('copy');
+})
+
 var encodeWorker = function(fileName, opt){
 	if (!fileName) throw new PluginError('gulp-concat',  'Missing fileName option for gulp-concat');
 	if (!opt) opt = {};
