@@ -1,4 +1,49 @@
 initSidebar = (viewer) => {
+	//var pcMaterialSize = viewer.scene.pointclouds[0].material.size;
+	var pointcloud = viewer.scene.pointclouds[0];
+	new Vue({
+		el: '#vue-menu',
+		data: {
+			pointBudget: 	viewer.getPointBudget(),
+		  	pcMaterialSize: pointcloud.material.size,
+			fov: 			viewer.getFOV(),
+			background: 	viewer.getBackground(),
+			shape: 			pointcloud.material.shape
+		},
+		methods: {
+			onPointBudgetChange:function(event) {
+				this.pointBudget = event.target.value;
+				viewer.setPointBudget(this.pointBudget);
+			},
+			onPointSizeChange: function (event) {
+				this.pcMaterialSize = event.target.value;
+				pointcloud.material.size = parseFloat(this.pcMaterialSize);
+			},
+			onFovChange:function(event) {
+				this.fov = event.target.value;
+				viewer.setFOV(this.fov);
+			}
+		},
+		watch: {
+			background: {
+				handler(val) {
+					console.log('background changed = ' + val);
+					viewer.setBackground(val);
+				}
+			},
+			shape: {
+				handler(val) {
+					console.log('shape changed = ' + val);
+					pointcloud.material.shape = parseInt(val);
+					//pcMaterial.pointSizeType = Potree.PointSizeType[ui.item.value];
+				}
+			}
+		}
+	});
+
+
+
+
 	let createToolIcon = function (icon, title, callback) {
 		let element = $(`
 			<img src="${icon}"
