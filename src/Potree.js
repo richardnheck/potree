@@ -16,7 +16,7 @@ Potree.framenumber = 0;
 
 Potree.showStats = true;
 Potree.showGrid = false;
-Potree.usePotreeMenu = true;
+Potree.usePotreeMenu = false;
 // contains WebWorkers with base64 encoded code
 // Potree.workers = {};
 
