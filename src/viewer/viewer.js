@@ -158,6 +158,8 @@ Potree.Scene = class extends THREE.EventDispatcher{
 
 		this.directionalLight = null;
 
+		this.externalGUI = null;
+
 		this.initialize();
 	}
 
@@ -447,6 +449,8 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 	constructor(domElement, args){
 		super();		
 		
+		console.log('Constructor: Potree.Viewer');
+
 		{ // generate missing dom hierarchy
 			if ($(domElement).find('#potree_map').length === 0) {
 				let potreeMap = $(`
@@ -466,6 +470,12 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		}
 
 		let a = args || {};
+		if(args != undefined) {
+			let path = args;
+			console.log('customPath = ' + args);
+			this.registerExternalGUI(args);
+		}
+
 		this.pointCloudLoadedCallback = a.onPointCloudLoaded || function () {};
 
 		this.renderArea = domElement;
@@ -1246,9 +1256,43 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		}
 	};
 
+	
+	registerExternalGUI(path) {
+		this.externalGUI = { path: path};
+	}
+
 	loadGUI (callback) {
-		if(!Potree.usePotreeMenu) { return; }
 		let viewer = this;
+		console.log('loadGUI()');
+
+		if(!Potree.usePotreeMenu) { 
+			console.log('not using potree menu... ');
+			if(this.externalGUI != null) {
+				console.log('loading custom gui...');
+				let sidebarContainer = $('#potree_sidebar_container');	
+				var customUrl = new URL(Potree.scriptPath + '/' + this.externalGUI.path).href;
+				console.log('customUrl=' + customUrl);
+				sidebarContainer.load(customUrl, () => {
+					sidebarContainer.css('width', '300px');
+					sidebarContainer.css('height', '100%');
+					let imgMenuToggle = document.createElement('img');
+					imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
+					imgMenuToggle.onclick = this.toggleSidebar;
+					imgMenuToggle.classList.add('potree_menu_toggle');
+
+					viewer.renderArea.insertBefore(imgMenuToggle, viewer.renderArea.children[0]);
+					
+					/*
+					$(() => {
+						initCustomSidebar(this);
+					});
+					*/
+				});
+
+			}
+			return; 
+		}
+		
 		let sidebarContainer = $('#potree_sidebar_container');
 		sidebarContainer.load(new URL(Potree.scriptPath + '/sidebar.html').href, () => {
 			sidebarContainer.css('width', '300px');
