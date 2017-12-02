@@ -8,7 +8,8 @@ initSidebar = (viewer) => {
 		  	pcMaterialSize: pointcloud.material.size,
 			fov: 			viewer.getFOV(),
 			background: 	viewer.getBackground(),
-			shape: 			pointcloud.material.shape
+			shape: 			pointcloud.material.shape,
+			adaptivePointsChecked: (pointcloud.material.pointSizeType == Potree.PointSizeType.ADAPTIVE)
 		},
 		methods: {
 			onPointBudgetChange:function(event) {
@@ -22,6 +23,24 @@ initSidebar = (viewer) => {
 			onFovChange:function(event) {
 				this.fov = event.target.value;
 				viewer.setFOV(this.fov);
+			},
+			onEarthControlsClick:function(event) {
+				viewer.setNavigationMode(Potree.EarthControls);
+			},
+			onFirstPersonControlsClick:function(event) {
+				viewer.setNavigationMode(Potree.FirstPersonControls);
+			},
+			onOrbitControlsClick:function(event) {
+				viewer.setNavigationMode(Potree.OrbitControls);
+			},
+			onFitToScreenClick:function(event) {
+				viewer.fitToScreen();
+			},
+			onPerspectiveCameraClick:function(event) {
+				viewer.switchCameraMode(Potree.CameraMode.PERSPECTIVE);
+			},
+			onOrthographicCameraClick:function(event) {
+				viewer.switchCameraMode(Potree.CameraMode.ORTHOGRAPHIC)
 			}
 		},
 		watch: {
@@ -37,6 +56,27 @@ initSidebar = (viewer) => {
 					pointcloud.material.shape = parseInt(val);
 					//pcMaterial.pointSizeType = Potree.PointSizeType[ui.item.value];
 				}
+			},
+			adaptivePointsChecked: {
+				handler(val) {
+					console.log('adaptivePointsChecked = ' + val);
+					if(val) {
+						
+						pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+					} else {
+						pointcloud.material.pointSizeType = Potree.PointSizeType.FIXED;
+					}
+				}
+			}
+		},
+		computed: {
+			shapeName: function() {
+				if(this.shape == 0) { return 'square';}
+				if(this.shape == 1) { return 'round';}
+				if(this.shape == 2) { return 'parabloid';}
+			},
+			pointTypeName:function() {
+				return (this.adaptivePointsChecked) ? 'Adaptive' : 'Fixed';
 			}
 		}
 	});
