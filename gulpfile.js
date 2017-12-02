@@ -192,6 +192,8 @@ gulp.task('copy', function () {
 		.pipe(gulp.dest('../../potree-clouds/libs/potree/'));
 	gulp.src('./src/viewer/sidebar.html')
 		.pipe(gulp.dest('../../potree-clouds/libs/potree/'));
+	gulp.src('./src/viewer/sidebar-custom.html')
+		.pipe(gulp.dest('../../potree-clouds/libs/potree/'));
 	gulp.src('./resources/icons/*.*')
         .pipe(gulp.dest('../../potree-clouds/libs/potree/resources/icons'));
 });
