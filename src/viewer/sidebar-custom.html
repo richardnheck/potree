@@ -1,0 +1,356 @@
+
+
+<div id="sidebar_root" 
+	class="perfect_scrollbar navmenu navmenu-default navmenu-fixed-left unselectable" 
+	style="position: absolute; min-height: 100%; height: 100%; width: calc(100% - 1px); border-right: 1px solid black !important; overflow: hidden; background-color:black !important">
+	<div>
+	<!--<div id="accordion" class="accordion">-->
+	<div id="potree_menu" class="accordion">
+		<style>
+			#vue-menu .pv-menu-list li span { }
+			#square-svg, #round-svg {
+				width:32px;height:32px;
+				transition: 0.2s all ease;
+				stroke-width: 3px;
+				stroke: #ffffff;
+			  }
+			  #round-svg {
+				  stroke-width:2px;
+			  }
+			  #parabloid-svg {
+				  width:36px;
+				  height:33px;
+				  transition: 0.2s all ease;
+					stroke-width: 2px;
+					stroke: #ffffff;
+			  }
+			  
+			  #square-svg:hover, #round-svg:hover {  
+				fill: #fff;
+				fill-opacity: 1;
+				stroke: #ffffff;
+			  }
+			  #parabloid-svg:hover {
+			  fill: #fff;
+				fill-opacity: 1;
+				stroke: #ffffff;
+			  }
+
+			  input[type=range] {
+			-webkit-appearance: none;
+			width: 100%;
+			margin: 8.7px 0;
+			}
+			input[type=range]:focus {
+			outline: none;
+			}
+			input[type=range]::-webkit-slider-runnable-track {
+			width: 100%;
+			height: 5.6px;
+			cursor: pointer;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			background: #28bdec;
+			border-radius: 12.2px;
+			border: 0px solid rgba(24, 213, 1, 0);
+			}
+			input[type=range]::-webkit-slider-thumb {
+			box-shadow: 0.2px 0.2px 5.4px #0f2b31, 0px 0px 0.2px #153c45;
+			border: 2.5px solid rgba(131, 229, 132, 0);
+			height: 23px;
+			width: 23px;
+			border-radius: 13px;
+			background: #ffffff;
+			cursor: pointer;
+			-webkit-appearance: none;
+			margin-top: -8.7px;
+			}
+			input[type=range]:focus::-webkit-slider-runnable-track {
+			background: #9de1f6;
+			}
+			input[type=range]::-moz-range-track {
+			width: 100%;
+			height: 5.6px;
+			cursor: pointer;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			background: #28bdec;
+			border-radius: 12.2px;
+			border: 0px solid rgba(24, 213, 1, 0);
+			}
+			input[type=range]::-moz-range-thumb {
+			box-shadow: 0.2px 0.2px 5.4px #0f2b31, 0px 0px 0.2px #153c45;
+			border: 2.5px solid rgba(131, 229, 132, 0);
+			height: 23px;
+			width: 23px;
+			border-radius: 13px;
+			background: #ffffff;
+			cursor: pointer;
+			}
+			input[type=range]::-ms-track {
+			width: 100%;
+			height: 5.6px;
+			cursor: pointer;
+			background: transparent;
+			border-color: transparent;
+			color: transparent;
+			}
+			input[type=range]::-ms-fill-lower {
+			background: #0c6b88;
+			border: 0px solid rgba(24, 213, 1, 0);
+			border-radius: 24.4px;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			}
+			input[type=range]::-ms-fill-upper {
+			background: #28bdec;
+			border: 0px solid rgba(24, 213, 1, 0);
+			border-radius: 24.4px;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			}
+			input[type=range]::-ms-thumb {
+			box-shadow: 0.2px 0.2px 5.4px #0f2b31, 0px 0px 0.2px #153c45;
+			border: 2.5px solid rgba(131, 229, 132, 0);
+			height: 23px;
+			width: 23px;
+			border-radius: 13px;
+			background: #ffffff;
+			cursor: pointer;
+			height: 5.6px;
+			}
+			input[type=range]:focus::-ms-fill-lower {
+			background: #28bdec;
+			}
+			input[type=range]:focus::-ms-fill-upper {
+			background: #9de1f6;
+			}
+
+
+			.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #ccc;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  .slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: white;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  input:checked + .slider {
+	background-color: #00BFFF;
+  }
+  
+  input:focus + .slider {
+	box-shadow: 0 0 1px #00BFFF;
+  }
+  
+  input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+	border-radius: 34px;
+  }
+  
+  .slider.round:before {
+	border-radius: 50%;
+  }
+
+		</style>
+		<div>
+			<div id="vue-menu">
+				<ul class="pv-menu-list">
+					<li><span>Points:{{pointBudget}}</span><input class="ui-slider" type="range" min="100000" max="5000000" step="1000" v-bind:value="pointBudget" v-on:input="onPointBudgetChange" /></li> 
+					<li><span>FOV(deg):{{fov}}</span><input class="ui-slider" type="range" min="20" max="100" step="1" v-bind:value="fov" v-on:input="onFovChange" /></li> 
+					
+					
+					<li>
+						<h3>Point Settings</h3>
+						<span>Point Size:{{pcMaterialSize}}</span>
+							<input type="range" min="0" max="3" step="0.1" v-bind:value="pcMaterialSize" v-on:input="onPointSizeChange" />
+							
+							<span> </span><br>
+							<div>Point Type: {{pointTypeName}}
+									<label class="switch">
+										<input type="checkbox" v-model="adaptivePointsChecked">
+										<span class="slider round"></span>
+									</label>
+								</div>
+                            <br/>
+							<span>Shape: {{shapeName}} </span><br>
+							<label>
+							<input type="radio" name="shape" value="0" v-model="shape" title="square"><span>
+								<svg id="square-svg" title="square">	
+									<rect width="100%" height="100%" />
+								</svg></span>
+							</label>
+							<label>
+								<input type="radio" name="shape" value="1" v-model="shape" title="round"><span>
+								<svg id="round-svg" title="round">
+									<circle cx="16" cy="16" r="15"/>
+								</svg></span>
+							</label>
+							<label>
+								<input type="radio" name="shape" value="2" v-model="shape" title="parabloid"><span>
+									<svg id="parabloid-svg" title="parabloid"  viewbox="0 0 36 31.17691453623979">
+									<path d="M0 15.588457268119894L9 0L27 0L36 15.588457268119894L27 31.17691453623979L9 31.17691453623979Z"></path>
+								</svg></span>
+							</label>
+							<!--
+							<h3>Shape</h3>
+						<li><label><input type="radio" name="shape" value="0" v-model="shape"><span>Square</span></label></li>
+						<li><label><input type="radio" name="shape" value="1" v-model="shape"><span>Round</span></label></li>
+						<li><label><input type="radio" name="shape" value="2" v-model="shape"><span>Parabloid</span></label></li>
+						-->
+					</li>
+					<li>
+						<h3>Background</h3>
+						<li><label><input type="radio" name="background" value="gradient" v-model="background"/><span>Gradient</span></label></li>
+						<li><label><input type="radio" name="background" value="gray" v-model="background"/><span>Gray</span></label></li>
+						<li><label><input type="radio" name="background" value="black" v-model="background"/><span>Black</span></label></li>
+						<li><label><input type="radio" name="background" value="white" v-model="background"/><span>White</span></label></li>
+					</li>
+					<li>
+						
+						
+						
+					</li>
+					<li>
+							
+					</li>
+					<li>
+						<h3>Camera</h3>
+						<img src="http://localhost/potree/libs/potree/resources/icons/earth_controls_1.png" v-on:click="onEarthControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.earth_control" title="Earth control">
+						<img src="http://localhost/potree/libs/potree/resources/icons/fps_controls.png" v-on:click="onFirstPersonControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.flight_control" title="Fly control">
+						<img src="http://localhost/potree/libs/potree/resources/icons/orbit_controls.svg" v-on:click="onOrbitControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.orbit_control" title="Orbit control">
+						<img src="http://localhost/potree/libs/potree/resources/icons/focus.svg" v-on:click="onFitToScreenClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.focus_control" title="Full extent">
+						<img src="http://localhost/potree/libs/potree/resources/icons/perspective-camera.svg" v-on:click="onPerspectiveCameraClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.perspective_camera_control" title="tt.perspective_camera_control">
+						<img src="http://localhost/potree/libs/potree/resources/icons/orthographic-camera.svg" v-on:click="onOrthographicCameraClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.orthographic_camera_control" title="tt.orthographic_camera_control">
+
+						
+					</li>
+				</ul>
+			</div>
+    	</div>
+	</div>
+</div>
+</div>
+
+<script>
+    $.getScript( "https://unpkg.com/vue", function( data, textStatus, jqxhr ) {
+        console.log( data ); // Data returned
+        console.log( textStatus ); // Success
+        console.log( jqxhr.status ); // 200
+        console.log( "Load was performed." );
+
+        initCustomSidebar = (viewer) => {
+        //var pcMaterialSize = viewer.scene.pointclouds[0].material.size;
+        var pointcloud = viewer.scene.pointclouds[0];
+        new Vue({
+            el: '#vue-menu',
+            data: {
+                pointBudget: 	viewer.getPointBudget(),
+                  pcMaterialSize: pointcloud.material.size,
+                fov: 			viewer.getFOV(),
+                background: 	viewer.getBackground(),
+                shape: 			pointcloud.material.shape,
+                adaptivePointsChecked: (pointcloud.material.pointSizeType == Potree.PointSizeType.ADAPTIVE)
+            },
+            methods: {
+                onPointBudgetChange:function(event) {
+                    this.pointBudget = event.target.value;
+                    viewer.setPointBudget(this.pointBudget);
+                },
+                onPointSizeChange: function (event) {
+                    this.pcMaterialSize = event.target.value;
+                    pointcloud.material.size = parseFloat(this.pcMaterialSize);
+                },
+                onFovChange:function(event) {
+                    this.fov = event.target.value;
+                    viewer.setFOV(this.fov);
+                },
+                onEarthControlsClick:function(event) {
+                    viewer.setNavigationMode(Potree.EarthControls);
+                },
+                onFirstPersonControlsClick:function(event) {
+                    viewer.setNavigationMode(Potree.FirstPersonControls);
+                },
+                onOrbitControlsClick:function(event) {
+                    viewer.setNavigationMode(Potree.OrbitControls);
+                },
+                onFitToScreenClick:function(event) {
+                    viewer.fitToScreen();
+                },
+                onPerspectiveCameraClick:function(event) {
+                    viewer.switchCameraMode(Potree.CameraMode.PERSPECTIVE);
+                },
+                onOrthographicCameraClick:function(event) {
+                    viewer.switchCameraMode(Potree.CameraMode.ORTHOGRAPHIC)
+                }
+            },
+            watch: {
+                background: {
+                    handler(val) {
+                        console.log('background changed = ' + val);
+                        viewer.setBackground(val);
+                    }
+                },
+                shape: {
+                    handler(val) {
+                        console.log('shape changed = ' + val);
+                        pointcloud.material.shape = parseInt(val);
+                        //pcMaterial.pointSizeType = Potree.PointSizeType[ui.item.value];
+                    }
+                },
+                adaptivePointsChecked: {
+                    handler(val) {
+                        console.log('adaptivePointsChecked = ' + val);
+                        if(val) {
+                            
+                            pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+                        } else {
+                            pointcloud.material.pointSizeType = Potree.PointSizeType.FIXED;
+                        }
+                    }
+                }
+            },
+            computed: {
+                shapeName: function() {
+                    if(this.shape == 0) { return 'square';}
+                    if(this.shape == 1) { return 'round';}
+                    if(this.shape == 2) { return 'parabloid';}
+                },
+                pointTypeName:function() {
+                    return (this.adaptivePointsChecked) ? 'Adaptive' : 'Fixed';
+                }
+            }
+        });
+    };
+
+
+    initCustomSidebar(window.viewer);
+    });
+</script>
