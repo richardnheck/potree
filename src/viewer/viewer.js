@@ -6,6 +6,18 @@
 //    if (!results[2]) return '';
 //    return decodeURIComponent(results[2].replace(/\+/g, " "));
 // }
+class ExternalGUI {
+	/**
+	 * Constructor
+	 * @param {*} templateUrl 
+	 * @param {*} useSidebarContainer loads the html template defined by urlPath into Potree's sidebar container div
+	 */
+	constructor(templateUrl, useSidebarContainer = false) {
+		this.templateUrl = templateUrl;
+		this.useSidebarContainer = useSidebarContainer;
+	}
+}
+
 
 Potree.View = class {
 	constructor () {
@@ -446,7 +458,7 @@ Potree.Scene = class extends THREE.EventDispatcher{
 Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 
 	
-	constructor(domElement, args){
+	constructor(domElement, args, externalGUI){
 		super();		
 		
 		console.log('Constructor: Potree.Viewer');
@@ -469,13 +481,13 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			}
 		}
 
-		let a = args || {};
-		if(args != undefined) {
-			let path = args;
-			console.log('customPath = ' + args);
-			this.registerExternalGUI(args);
+
+		if(externalGUI != undefined) {
+			this.registerExternalGUI(externalGUI);
 		}
 
+		
+		let a = args || {};
 		this.pointCloudLoadedCallback = a.onPointCloudLoaded || function () {};
 
 		this.renderArea = domElement;
@@ -1257,29 +1269,35 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 	};
 
 	
-	registerExternalGUI(path) {
-		this.externalGUI = { path: path};
+	/**
+	 * Register an external GUI to replace Potree's default sidebar GUI
+	 * @param {ExternalGUI} externalGUI 
+	 */
+	registerExternalGUI(externalGUI) {
+		this.externalGUI = externalGUI;
 	}
+
 
 	loadGUI (callback) {
 		let viewer = this;
 		console.log('loadGUI()');
 
-		if(!Potree.usePotreeMenu) { 
-			console.log('not using potree menu... ');
-			if(this.externalGUI != null) {
-				console.log('loading custom gui...');
+		
+		if(this.externalGUI != null) {
+			// An external GUI has been registered so load it instead of the default sidebar template
+			if(this.externalGUI.useSidebarContainer) {
+				// Load the template into Potree's sidebar container
 				let sidebarContainer = $('#potree_sidebar_container');	
-				var customUrl = new URL(Potree.scriptPath + '/' + this.externalGUI.path).href;
-				console.log('customUrl=' + customUrl);
-				sidebarContainer.load(customUrl, () => {
+				sidebarContainer.load(this.externalGUI.templateUrl, () => {
+					// Use Potree default settings for the sidebar
 					sidebarContainer.css('width', '300px');
 					sidebarContainer.css('height', '100%');
+					
+					// Use Potree's default button to toggle the sidebar
 					let imgMenuToggle = document.createElement('img');
 					imgMenuToggle.src = new URL(Potree.resourcePath + '/icons/menu_button.svg').href;
 					imgMenuToggle.onclick = this.toggleSidebar;
 					imgMenuToggle.classList.add('potree_menu_toggle');
-
 					viewer.renderArea.insertBefore(imgMenuToggle, viewer.renderArea.children[0]);
 					
 					/*
@@ -1288,10 +1306,20 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 					});
 					*/
 				});
-
+			} else {
+				$.ajax({ type: "GET",   
+					url: this.externalGUI.templateUrl,   
+					success : function(text) {
+						$('body').append('<div>' + text + '</div>');
+					}
+		   		});
 			}
-			return; 
+			
+			// TODO: Can't just return because other GUI things need to be handled
+			return;
 		}
+		
+		
 		
 		let sidebarContainer = $('#potree_sidebar_container');
 		sidebarContainer.load(new URL(Potree.scriptPath + '/sidebar.html').href, () => {
