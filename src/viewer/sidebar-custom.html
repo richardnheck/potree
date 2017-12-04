@@ -1,3 +1,7 @@
+<link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/vue-material.min.css">
+<link rel="stylesheet" href="https://unpkg.com/vue-material@1.0.0-beta-7/dist/theme/default-dark.css">
+
+<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
 <style>
 	.custom-menu-toggle {
 		position: absolute;
@@ -15,11 +19,11 @@
 	<img src="http://localhost/potree/libs/potree/resources/icons/menu_button.svg" class="custom-menu-toggle" v-on:click="onToggleMenu" v-if="menuButtonVisible">
 </div>
 
-<div id="sidebar_root" 
+<div id="sidebar_root"
 	class="perfect_scrollbar navmenu navmenu-default navmenu-fixed-left unselectable" 
 	style="position: absolute; min-height: 100%; height: 100%; width: calc(100% - 1px); border-right: 1px solid black !important; overflow: hidden; background-color:black !important">
 	<div>
-	<!--<div id="accordion" class="accordion">-->
+	<div id="accordion" class="accordion">
 	<div id="potree_menu" class="accordion">
 		<style>
 			#vue-menu .pv-menu-list li span { }
@@ -215,11 +219,27 @@
     left:50%;
     margin-left:-120px;
  }
+ 
+ 
+ .md-body-1.indented {
+	width:70px;
+	display:inline-block
+ }
 
+.section {
+	margin-top:5px;
+}
 
+.md-radio .md-radio-label {
+	padding-left:5px !important;
+}
+
+.md-field:after { height:0px !important;}
 		</style>
-		<div>
+		
 			<div id="vue-menu">
+
+
 				<div class="footer">
 					<div class="camera-controls">
 							<img src="http://localhost/potree/libs/potree/resources/icons/earth_controls_1.png" v-on:click="onEarthControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.earth_control" title="Earth control">
@@ -231,191 +251,250 @@
 					</div>
 				</div>
 				
-				<ul class="pv-menu-list" style="margin-top:50px;width:300px">
-					<li><span>Points:{{pointBudget}}</span><input class="ui-slider" type="range" min="100000" max="5000000" step="1000" v-bind:value="pointBudget" v-on:input="onPointBudgetChange" /></li> 
-					<li><span>FOV(deg):{{fov}}</span><input class="ui-slider" type="range" min="20" max="100" step="1" v-bind:value="fov" v-on:input="onFovChange" /></li> 
+				<div style="margin-top:20px;width:300px;padding:10px" >
+					<h3>General</h3>
+					<div class="section">
+						<span class="md-body-1 indented">Points(m)</span>
+						<input style="width:65%" type="range" min="100000" max="5000000" step="1000" v-bind:value="pointBudget" v-on:input="onPointBudgetChange" />
+						<span class="md-caption">{{pointBudgetDisplay}}</span>
+					</div>
+					<div class="section">
+						<span class="md-body-1 indented">FOV(deg)</span>
+						<input style="width:65%" type="range" min="20" max="100" step="1" v-bind:value="fov" v-on:input="onFovChange" />
+						<span class="md-caption">{{fov}}</span>
+					</div>
 					
-					<li>
-						<h3>Point Settings</h3>
-						<span>Size:{{pcMaterialSize}}</span>
-							<input type="range" min="0" max="3" step="0.1" v-bind:value="pcMaterialSize" v-on:input="onPointSizeChange" />
-							
-							<span> </span><br>
-							<div>Type: {{pointTypeName}}
-									<label class="switch">
-										<input type="checkbox" v-model="adaptivePointsChecked">
-										<span class="slider round"></span>
-									</label>
-								</div>
-                            <br/>
-							<span>Shape: {{shapeName}} </span><br>
-							<label>
-							<input type="radio" name="shape" value="0" v-model="shape" title="square"><span>
-								<svg id="square-svg" title="square">	
-									<rect width="100%" height="100%" />
-								</svg></span>
+					<h3>Point Settings</h3>
+					
+					<div>
+						<span class="md-body-1 indented">Size</span>
+						<input style="width:65%" type="range" min="0" max="3" step="0.1" v-bind:value="pcMaterialSize" v-on:input="onPointSizeChange" />
+						<span class="md-caption">{{pcMaterialSize}}</span>
+					</div>
+					<div>
+						<span class="md-body-1 indented">Type</span>
+						<md-switch v-model="adaptivePointsChecked" class="md-primary"><span class="md-caption">{{pointTypeName}}</span></md-switch>
+					</div>	
+					<div>
+						<span class="md-body-1 indented">Shape</span>
+						<md-radio v-model="shape" value="0"  class="md-primary">SQUARE</md-radio>
+						<md-radio v-model="shape" value="1"  class="md-primary">ROUND</md-radio>
+						<!--<md-radio v-model="shape" value="2"  class="md-primary">PAR</md-radio>-->
+					</div>	
+						<!--
+						<div>
+							Type: {{pointTypeName}}
+							<label class="switch">
+								<input type="checkbox" v-model="adaptivePointsChecked">
+								<span class="slider round"></span>
 							</label>
-							<label>
-								<input type="radio" name="shape" value="1" v-model="shape" title="round"><span>
-								<svg id="round-svg" title="round">
-									<circle cx="16" cy="16" r="15"/>
-								</svg></span>
-							</label>
-							<label>
-								<input type="radio" name="shape" value="2" v-model="shape" title="parabloid"><span>
-									<svg id="parabloid-svg" title="parabloid"  viewbox="0 0 36 31.17691453623979">
-									<path d="M0 15.588457268119894L9 0L27 0L36 15.588457268119894L27 31.17691453623979L9 31.17691453623979Z"></path>
-								</svg></span>
-							</label>
-							<!--
-							<h3>Shape</h3>
-						<li><label><input type="radio" name="shape" value="0" v-model="shape"><span>Square</span></label></li>
-						<li><label><input type="radio" name="shape" value="1" v-model="shape"><span>Round</span></label></li>
-						<li><label><input type="radio" name="shape" value="2" v-model="shape"><span>Parabloid</span></label></li>
+						</div>
 						-->
-					</li>
-					<li>
-						<h3>Camera</h3>
-						<img src="http://localhost/potree/libs/potree/resources/icons/earth_controls_1.png" v-on:click="onEarthControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.earth_control" title="Earth control">
-						<img src="http://localhost/potree/libs/potree/resources/icons/fps_controls.png" v-on:click="onFirstPersonControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.flight_control" title="Fly control">
-						<img src="http://localhost/potree/libs/potree/resources/icons/orbit_controls.svg" v-on:click="onOrbitControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.orbit_control" title="Orbit control">
-						<img src="http://localhost/potree/libs/potree/resources/icons/focus.svg" v-on:click="onFitToScreenClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.focus_control" title="Full extent">
-						<img src="http://localhost/potree/libs/potree/resources/icons/perspective-camera.svg" v-on:click="onPerspectiveCameraClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.perspective_camera_control" title="tt.perspective_camera_control">
-						<img src="http://localhost/potree/libs/potree/resources/icons/orthographic-camera.svg" v-on:click="onOrthographicCameraClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.orthographic_camera_control" title="tt.orthographic_camera_control">
-					</li>
+						
+						
+						
+						<!--
+						<br/>
+						<span>Shape: {{shapeName}} </span><br>
+						<label>
+						<input type="radio" name="shape" value="0" v-model="shape" title="square"><span>
+							<svg id="square-svg" title="square">	
+								<rect width="100%" height="100%" />
+							</svg></span>
+						</label>
+						<label>
+							<input type="radio" name="shape" value="1" v-model="shape" title="round"><span>
+							<svg id="round-svg" title="round">
+								<circle cx="16" cy="16" r="15"/>
+							</svg></span>
+						</label>
+						<label>
+							<input type="radio" name="shape" value="2" v-model="shape" title="parabloid"><span>
+								<svg id="parabloid-svg" title="parabloid"  viewbox="0 0 36 31.17691453623979">
+								<path d="M0 15.588457268119894L9 0L27 0L36 15.588457268119894L27 31.17691453623979L9 31.17691453623979Z"></path>
+							</svg></span>
+						</label>
+						-->
+						<!--
+						<h3>Shape</h3>
+					<li><label><input type="radio" name="shape" value="0" v-model="shape"><span>Square</span></label></li>
+					<li><label><input type="radio" name="shape" value="1" v-model="shape"><span>Round</span></label></li>
+					<li><label><input type="radio" name="shape" value="2" v-model="shape"><span>Parabloid</span></label></li>
+					-->
+					
+					
+					<h3>Controls</h3>
+					<img src="http://localhost/potree/libs/potree/resources/icons/earth_controls_1.png" v-on:click="onEarthControlsClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.earth_control" title="Earth control">
+					<img src="http://localhost/potree/libs/potree/resources/icons/fps_controls.png" v-on:click="onFirstPersonControlsClick" style="margin-left:5px;width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.flight_control" title="Fly control">
+					<img src="http://localhost/potree/libs/potree/resources/icons/orbit_controls.svg" v-on:click="onOrbitControlsClick" style="margin-left:10px;width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.orbit_control" title="Orbit control">
+					<img src="http://localhost/potree/libs/potree/resources/icons/focus.svg" v-on:click="onFitToScreenClick" style="margin-left:10px; width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.focus_control" title="Full extent">
+					<h3>Camera</h3>
+					<img src="http://localhost/potree/libs/potree/resources/icons/perspective-camera.svg" v-on:click="onPerspectiveCameraClick" style="width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.perspective_camera_control" title="tt.perspective_camera_control">
+					<img src="http://localhost/potree/libs/potree/resources/icons/orthographic-camera.svg" v-on:click="onOrthographicCameraClick" style="margin-left:10px; width: 32px; height: 32px" class="button-icon" data-i18n="[title]tt.orthographic_camera_control" title="tt.orthographic_camera_control">
+					
 
-					<li>
+					
+						<!--
 						<h3>Background</h3>
 						<li><label><input type="radio" name="background" value="gradient" v-model="background"/><span>Gradient</span></label></li>
 						<li><label><input type="radio" name="background" value="gray" v-model="background"/><span>Gray</span></label></li>
 						<li><label><input type="radio" name="background" value="black" v-model="background"/><span>Black</span></label></li>
 						<li><label><input type="radio" name="background" value="white" v-model="background"/><span>White</span></label></li>
-					</li>
-				</ul>
+						-->
+						<h3>Display</h3>
+						<form novalidate class="md-layout-row md-gutter">
+							<div class="md-layout-row md-gutter">
+								<div class="md-flex">
+									<md-field>
+										<label for="movie">Background</label>
+										<md-select v-model="background" name="background" id="background">
+											<md-option value="gradient">Gradient</md-option>
+											<md-option value="gray">Gray</md-option>
+											<md-option value="black">Black</md-option>
+											<md-option value="white">White</md-option>
+										</md-select>
+									</md-field>
+								</div>
+							</div>
+						</form>
+					
+				</div>
 			</div>
-    	</div>
+    	
 	</div>
 </div>
 </div>
 
+
+
+
+
+
 <script>
-    $.getScript( "https://unpkg.com/vue", function( data, textStatus, jqxhr ) {
-        console.log( data ); // Data returned
-        console.log( textStatus ); // Success
-        console.log( jqxhr.status ); // 200
-        console.log( "Load was performed." );
+    $.getScript( "vue.min.js", function( data, textStatus, jqxhr ) {
+		$.getScript( "vue-material.min.js", function( data, textStatus, jqxhr ) {
 
-        initCustomSidebar = (viewer) => {
+			initCustomSidebar = (viewer) => {
+				Vue.use(VueMaterial.default)
 
-		new Vue({
-			el: '#vue-menu-control',
-			data: {
-				menuOpen: false,			// Menu is closed by default
-				menuButtonVisible: true		// When template is loaded we don't want the menu button to be visible
-											// until Vue is loaded and ready. Upon initialisation set the menu button visible
-			},
-			methods: {
-				onToggleMenu:function() {
-					console.log('onToggleMenu()');
-					let renderArea = $('#potree_render_area');
-					let isVisible = renderArea.css('left') !== '0px';
+				new Vue({
+					el: '#vue-menu-control',
+					data: {
+						menuOpen: false,			// Menu is closed by default
+						menuButtonVisible: true		// When template is loaded we don't want the menu button to be visible
+													// until Vue is loaded and ready. Upon initialisation set the menu button visible
+					},
+					methods: {
+						onToggleMenu:function() {
+							console.log('onToggleMenu()');
+							let renderArea = $('#potree_render_area');
+							let isVisible = renderArea.css('left') !== '0px';
 
-					console.log('menuOpen = '+ this.menuOpen);
-					if (this.menuOpen) {
-						renderArea.css('left', '0px');
-					} else {
-						renderArea.css('left', '300px');
+							console.log('menuOpen = '+ this.menuOpen);
+							if (this.menuOpen) {
+								renderArea.css('left', '0px');
+							} else {
+								renderArea.css('left', '300px');
+							}
+
+							this.menuOpen = !this.menuOpen;
+						}
 					}
+				});
+				
 
-					this.menuOpen = !this.menuOpen;
-				}
+				//var pcMaterialSize = viewer.scene.pointclouds[0].material.size;
+				var pointcloud = viewer.scene.pointclouds[0];
+				new Vue({
+					el: '#vue-menu',
+					data: {
+						menuVisible:true,
+						pointBudget: 	viewer.getPointBudget(),
+						pcMaterialSize: pointcloud.material.size,
+						fov: 			viewer.getFOV(),
+						background: 	viewer.getBackground(),
+						shape: 			'' + pointcloud.material.shape,
+						adaptivePointsChecked: (pointcloud.material.pointSizeType == Potree.PointSizeType.ADAPTIVE),
+					},
+					methods: {
+						toggleMenu () {
+        this.menuVisible = !this.menuVisible
+      },
+						onPointBudgetChange:function(event) {
+							this.pointBudget = event.target.value;
+							viewer.setPointBudget(this.pointBudget);
+						},
+						onPointSizeChange: function (event) {
+							this.pcMaterialSize = event.target.value;
+							pointcloud.material.size = parseFloat(this.pcMaterialSize);
+						},
+						onFovChange:function(event) {
+							this.fov = event.target.value;
+							viewer.setFOV(this.fov);
+						},
+						onEarthControlsClick:function(event) {
+							viewer.setNavigationMode(Potree.EarthControls);
+						},
+						onFirstPersonControlsClick:function(event) {
+							viewer.setNavigationMode(Potree.FirstPersonControls);
+						},
+						onOrbitControlsClick:function(event) {
+							viewer.setNavigationMode(Potree.OrbitControls);
+						},
+						onFitToScreenClick:function(event) {
+							viewer.fitToScreen();
+						},
+						onPerspectiveCameraClick:function(event) {
+							viewer.switchCameraMode(Potree.CameraMode.PERSPECTIVE);
+						},
+						onOrthographicCameraClick:function(event) {
+							viewer.switchCameraMode(Potree.CameraMode.ORTHOGRAPHIC)
+						}
+					},
+					watch: {
+						background: {
+							handler(val) {
+								console.log('background changed = ' + val);
+								viewer.setBackground(val);
+							}
+						},
+						shape: {
+							handler(val) {
+								console.log('shape changed = ' + val);
+								pointcloud.material.shape = parseInt(val);
+								//pcMaterial.pointSizeType = Potree.PointSizeType[ui.item.value];
+							}
+						},
+						adaptivePointsChecked: {
+							handler(val) {
+								console.log('adaptivePointsChecked = ' + val);
+								if(val) {
+									pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
+								} else {
+									pointcloud.material.pointSizeType = Potree.PointSizeType.FIXED;
+								}
+							}
+						}
+					},
+					computed: {
+						shapeName: function() {
+							if(this.shape == 0) { return 'square';}
+							if(this.shape == 1) { return 'round';}
+							if(this.shape == 2) { return 'parabloid';}
+						},
+						pointTypeName:function() {
+							return (this.adaptivePointsChecked) ? 'Adaptive' : 'Fixed';
+						},
+						pointBudgetDisplay:function() {
+							return (this.pointBudget/1000000).toFixed(1);
+						}
+					}
+				});
 			}
-		})	
 
-        //var pcMaterialSize = viewer.scene.pointclouds[0].material.size;
-        var pointcloud = viewer.scene.pointclouds[0];
-        new Vue({
-            el: '#vue-menu',
-            data: {
-                pointBudget: 	viewer.getPointBudget(),
-                pcMaterialSize: pointcloud.material.size,
-                fov: 			viewer.getFOV(),
-                background: 	viewer.getBackground(),
-                shape: 			pointcloud.material.shape,
-                adaptivePointsChecked: (pointcloud.material.pointSizeType == Potree.PointSizeType.ADAPTIVE)
-            },
-            methods: {
-                onPointBudgetChange:function(event) {
-                    this.pointBudget = event.target.value;
-                    viewer.setPointBudget(this.pointBudget);
-                },
-                onPointSizeChange: function (event) {
-                    this.pcMaterialSize = event.target.value;
-                    pointcloud.material.size = parseFloat(this.pcMaterialSize);
-                },
-                onFovChange:function(event) {
-                    this.fov = event.target.value;
-                    viewer.setFOV(this.fov);
-                },
-                onEarthControlsClick:function(event) {
-                    viewer.setNavigationMode(Potree.EarthControls);
-                },
-                onFirstPersonControlsClick:function(event) {
-                    viewer.setNavigationMode(Potree.FirstPersonControls);
-                },
-                onOrbitControlsClick:function(event) {
-                    viewer.setNavigationMode(Potree.OrbitControls);
-                },
-                onFitToScreenClick:function(event) {
-                    viewer.fitToScreen();
-                },
-                onPerspectiveCameraClick:function(event) {
-                    viewer.switchCameraMode(Potree.CameraMode.PERSPECTIVE);
-                },
-                onOrthographicCameraClick:function(event) {
-                    viewer.switchCameraMode(Potree.CameraMode.ORTHOGRAPHIC)
-                }
-            },
-            watch: {
-                background: {
-                    handler(val) {
-                        console.log('background changed = ' + val);
-                        viewer.setBackground(val);
-                    }
-                },
-                shape: {
-                    handler(val) {
-                        console.log('shape changed = ' + val);
-                        pointcloud.material.shape = parseInt(val);
-                        //pcMaterial.pointSizeType = Potree.PointSizeType[ui.item.value];
-                    }
-                },
-                adaptivePointsChecked: {
-                    handler(val) {
-                        console.log('adaptivePointsChecked = ' + val);
-                        if(val) {
-                            
-                            pointcloud.material.pointSizeType = Potree.PointSizeType.ADAPTIVE;
-                        } else {
-                            pointcloud.material.pointSizeType = Potree.PointSizeType.FIXED;
-                        }
-                    }
-                }
-            },
-            computed: {
-                shapeName: function() {
-                    if(this.shape == 0) { return 'square';}
-                    if(this.shape == 1) { return 'round';}
-                    if(this.shape == 2) { return 'parabloid';}
-                },
-                pointTypeName:function() {
-                    return (this.adaptivePointsChecked) ? 'Adaptive' : 'Fixed';
-                }
-            }
-        });
-    };
-
-
-    initCustomSidebar(window.viewer);
+			initCustomSidebar(window.viewer);
+		});
+    
+    	
     });
 </script>
