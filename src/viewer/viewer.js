@@ -170,7 +170,7 @@ Potree.Scene = class extends THREE.EventDispatcher{
 
 		this.directionalLight = null;
 
-		this.externalGUI = null;
+		
 
 		this.initialize();
 	}
@@ -482,9 +482,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		}
 
 
-		if(externalGUI != undefined) {
-			this.registerExternalGUI(externalGUI);
-		}
+		this.registerExternalGUI(externalGUI);
 
 		
 		let a = args || {};
@@ -1284,6 +1282,8 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 
 		
 		if(this.externalGUI != null) {
+			console.log('loading external GUI...');
+			console.log(this.externalGUI);
 			// An external GUI has been registered so load it instead of the default sidebar template
 			if(this.externalGUI.useSidebarContainer) {
 				// Load the template into Potree's sidebar container
@@ -1319,6 +1319,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			return;
 		}
 		
+		console.log('No external GUI');
 		
 		
 		let sidebarContainer = $('#potree_sidebar_container');
