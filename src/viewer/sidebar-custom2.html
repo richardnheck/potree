@@ -1,6 +1,7 @@
-<link rel="stylesheet" href="https://unpkg.com/vue-material@beta/dist/vue-material.min.css">
-<link rel="stylesheet" href="https://unpkg.com/vue-material@1.0.0-beta-7/dist/theme/default-dark.css">
-<link rel="stylesheet" href="//fonts.googleapis.com/css?family=Roboto:400,500,700,400italic|Material+Icons">
+<link rel="stylesheet" href="sing-vendor.css">
+<link rel="stylesheet" href="sing-app.css">
+@import url("//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css");
+
 <style>
 	.custom-menu-toggle {
 		position: absolute;
@@ -12,17 +13,340 @@
 		z-index: 1900;
 		cursor: pointer;
 	}
+
+	input[type=range] {
+			-webkit-appearance: none;
+			width: 100%;
+			margin: 8.7px 0;
+			}
+			input[type=range]:focus {
+			outline: none;
+			}
+			input[type=range]::-webkit-slider-runnable-track {
+			width: 100%;
+			height: 5.6px;
+			cursor: pointer;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			background: #5d8fc2;/*#28bdec;*/
+			border-radius: 12.2px;
+			border: 0px solid rgba(24, 213, 1, 0);
+			}
+			input[type=range]::-webkit-slider-thumb {
+			box-shadow: 0.2px 0.2px 5.4px #0f2b31, 0px 0px 0.2px #153c45;
+			border: 2.5px solid rgba(131, 229, 132, 0);
+			height: 23px;
+			width: 23px;
+			border-radius: 13px;
+			background: #ffffff;
+			cursor: pointer;
+			-webkit-appearance: none;
+			margin-top: -8.7px;
+			}
+			input[type=range]:focus::-webkit-slider-runnable-track {
+			background: #9de1f6;
+			}
+			input[type=range]::-moz-range-track {
+			width: 100%;
+			height: 5.6px;
+			cursor: pointer;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			background: #28bdec;
+			border-radius: 12.2px;
+			border: 0px solid rgba(24, 213, 1, 0);
+			}
+			input[type=range]::-moz-range-thumb {
+			box-shadow: 0.2px 0.2px 5.4px #0f2b31, 0px 0px 0.2px #153c45;
+			border: 2.5px solid rgba(131, 229, 132, 0);
+			height: 23px;
+			width: 23px;
+			border-radius: 13px;
+			background: #555;
+			cursor: pointer;
+			}
+			input[type=range]::-ms-track {
+			width: 100%;
+			height: 5.6px;
+			cursor: pointer;
+			background: transparent;
+			border-color: transparent;
+			color: transparent;
+			}
+			input[type=range]::-ms-fill-lower {
+			background: #0c6b88;
+			border: 0px solid rgba(24, 213, 1, 0);
+			border-radius: 24.4px;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			}
+			input[type=range]::-ms-fill-upper {
+			background: #28bdec;
+			border: 0px solid rgba(24, 213, 1, 0);
+			border-radius: 24.4px;
+			box-shadow: 0.9px 0.9px 1.7px rgba(0, 0, 0, 0), 0px 0px 0.9px rgba(13, 13, 13, 0);
+			}
+			input[type=range]::-ms-thumb {
+			box-shadow: 0.2px 0.2px 5.4px #0f2b31, 0px 0px 0.2px #153c45;
+			border: 2.5px solid rgba(131, 229, 132, 0);
+			height: 23px;
+			width: 23px;
+			border-radius: 13px;
+			background: #555;
+			cursor: pointer;
+			height: 5.6px;
+			}
+			input[type=range]:focus::-ms-fill-lower {
+			background: #28bdec;
+			}
+			input[type=range]:focus::-ms-fill-upper {
+			background: #9de1f6;
+			}
+
+
+			.switch {
+	position: relative;
+	display: inline-block;
+	width: 60px;
+	height: 34px;
+  }
+  
+  .switch input {display:none;}
+  
+  .slider {
+	position: absolute;
+	cursor: pointer;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background-color: #555;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  .slider:before {
+	position: absolute;
+	content: "";
+	height: 26px;
+	width: 26px;
+	left: 4px;
+	bottom: 4px;
+	background-color: #555;
+	-webkit-transition: .4s;
+	transition: .4s;
+  }
+  
+  input:checked + .slider {
+	background-color: #00BFFF;
+  }
+  
+  input:focus + .slider {
+	box-shadow: 0 0 1px #00BFFF;
+  }
+  
+  input:checked + .slider:before {
+	-webkit-transform: translateX(26px);
+	-ms-transform: translateX(26px);
+	transform: translateX(26px);
+  }
+  
+  /* Rounded sliders */
+  .slider.round {
+	border-radius: 34px;
+  }
+  
+  .slider.round:before {
+	border-radius: 50%;
+  }
+	
+  .md-body-1.indented {
+	margin-left:10px;
+	width:80px;
+	display:inline-block
+ }
+
+
+.section {
+	margin-top:10px;
+}
+
+.control-slider { width:60% !important; display:inline-block !important;}
+
+/* sing overrides */
+.sidebar { width:300px !important;}
 </style>
 
 <div id="vue-menu-control">
-	<img src="http://localhost/potree/libs/potree/resources/icons/menu_button.svg" class="custom-menu-toggle" v-on:click="onToggleMenu" v-if="menuButtonVisible">
+	<!--<img src="http://localhost/potree/libs/potree/resources/icons/menu_button.svg" class="custom-menu-toggle" v-on:click="onToggleMenu" v-if="menuButtonVisible">-->
+	<a class="custom-menu-toggle" href="#" data-sn-action="toggle-navigation-state" title="" data-placement="bottom" data-tooltip="" data-original-title="Turn on/off sidebar collapsing"><i class="fa fa-bars fa-lg"></i></a>
+
+	<nav id="sidebar" role="navigation" class="sidebar" sn-navigation="" style="z-index:1000">
+		<div class="slimScrollDiv" style="position: relative; overflow: hidden; width: auto; height: 500px;">
+		   <div class="js-sidebar-content" style="overflow: hidden; width: auto; height: 500px">
+			  <header class="logo hidden-xs"><a href="index.html" class="ng-binding"><img src="http://synth3d.co/wp-content/uploads/2017/10/Synth_Staked_Fill_Gradient_Reversed400x378.png" style="height:50px"/></a></header>
+			  <div class="sidebar-status visible-xs"><a href="#" class="dropdown-toggle" data-toggle="dropdown"><span class="thumb-sm avatar pull-right"><img class="img-circle" src="assets/images/people/a5.jpg" alt="..."></span><span class="circle bg-warning fw-bold text-gray-dark">13</span> &nbsp; Philip <strong>Smith</strong> <b class="caret"></b></a></div>
+			  <ul class="sidebar-nav">
+				 <li class="active">
+					<a class="collapsed" data-target="#sidebar-dashboard" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><span class="icon"><i class="fa fa-desktop"></i></span> Display <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-dashboard" class="collapse" aria-expanded="false" style="height: 0px;">
+						<div class="section">
+							<span class="md-body-1 indented">Points(m)</span>
+							<input class="control-slider" type="range" min="100000" max="5000000" step="1000" v-bind:value="pointBudget" v-on:input="onPointBudgetChange" />
+							<span class="md-caption">1</span>
+						</div>
+						<div class="section">
+							<span class="md-body-1 indented">FOV(deg)</span>
+							<input class="control-slider" type="range" min="20" max="100" step="1" v-bind:value="fov" v-on:input="onFovChange" />
+							<span class="md-caption">20</span>
+						</div>
+					   <!--<li class="active"><a data-ui-sref="app.dashboard" href="#/app/dashboard">Dashboard</a></li>
+					   <li><a data-ui-sref="app.widgets" href="#/app/widgets">Widgets</a></li>-->
+					   <div class="section">
+							<span class="md-body-1 indented">Background</span>
+						<div class="btn-group bootstrap-select" style="width: 120px;">
+							<button type="button" class="btn dropdown-toggle btn-primary btn-sm" data-toggle="dropdown" data-id="simple-red-select" tabindex="-1" title="Ni" aria-expanded="false">
+								<span class="filter-option pull-left">Gray</span>&nbsp;<span class="bs-caret"><span class="caret"></span></span>
+								</button>
+								<div class="dropdown-menu open" style="min-width: 0px; max-height: 220px; overflow: hidden; min-height: 0px;">
+									<ul class="dropdown-menu inner" role="menu" style="max-height: 208px; overflow-y: auto; min-height: 0px;">
+										<li data-original-index="0" class="">
+											<a tabindex="0" class="" style="" data-tokens="null"><span >Gray</span><span class="glyphicon glyphicon-ok check-mark"></span></a>
+										</li>
+										<li data-original-index="1" class="selected">
+											<a tabindex="0" class="" style="" data-tokens="null"><span class="text">Gradient</span><span class="glyphicon glyphicon-ok check-mark"></span></a>
+										</li>
+										<li data-original-index="2">
+											<a tabindex="0" class="" style="" data-tokens="null"><span class="text">Black</span><span class="glyphicon glyphicon-ok check-mark"></span></a>
+										</li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</ul>
+				 </li>
+				 <li>
+					<a class="collapsed" data-target="#sidebar-points" data-toggle="collapse" data-parent="#sidebar" aria-expanded="false"><span class="icon"><i class="fa fa-desktop"></i></span> Points <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-points" class="collapse" aria-expanded="false" style="height: 0px;">
+						<div>
+							<span class="md-body-1 indented">Size</span>
+							<input class="control-slider" type="range" min="0" max="3" step="0.1" v-bind:value="pcMaterialSize" v-on:input="onPointSizeChange" />
+							<span class="md-caption">2.5</span>
+						</div>
+						<!--
+						<li class="active"><a data-ui-sref="app.points" href="#/app/points">Points</a></li>
+						<li><a data-ui-sref="app.widgets" href="#/app/widgets">Widgets</a></li>
+					   -->
+					</ul>
+				 </li>
+				 <li><a data-ui-sref="app.inbox" href="#/app/inbox"><span class="icon"><i class="fa fa-comment"></i></span> Annotations <span class="label label-danger">9</span></a></li>
+				 <li><a data-ui-sref="app.charts" href="#/app/charts"><span class="icon"><i class="fa fa-object-group"></i></span> Measurements</a></li>
+				 <li><a data-ui-sref="app.profile" href="#/app/profile"><span class="icon"><i class="glyphicon glyphicon-user"></i></span> Profile <sup class="text-warning fw-semi-bold">new</sup></a></li>
+			  </ul>
+			  <!--
+			  <ul class="sidebar-nav">
+				 <li>
+					<a class="collapsed" data-target="#sidebar-forms" data-toggle="collapse" data-parent="#sidebar"><span class="icon"><i class="glyphicon glyphicon-align-right"></i></span> Forms <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-forms" class="collapse">
+					   <li><a data-ui-sref="app.form-elements" href="#/app/form/elements">Form Elements</a></li>
+					   <li><a data-ui-sref="app.form-validation" href="#/app/form/validation">Form Validation</a></li>
+					   <li><a data-ui-sref="app.form-wizard" href="#/app/form/wizard">Form Wizard</a></li>
+					</ul>
+				 </li>
+				 <li>
+					<a class="collapsed" data-target="#sidebar-ui" data-toggle="collapse" data-parent="#sidebar"><span class="icon"><i class="glyphicon glyphicon-tree-conifer"></i></span> UI Elements <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-ui" class="collapse">
+					   <li><a data-ui-sref="app.ui-components" href="#/app/ui/components">Components</a></li>
+					   <li><a data-ui-sref="app.ui-notifications" href="#/app/ui/notifications">Notifications</a></li>
+					   <li><a data-ui-sref="app.ui-icons" href="#/app/ui/icons">Icons</a></li>
+					   <li><a data-ui-sref="app.ui-buttons" href="#/app/ui/buttons">Buttons</a></li>
+					   <li><a data-ui-sref="app.ui-tabs-accordion" href="#/app/ui/tabs-accordion">Tabs &amp; Accordion</a></li>
+					   <li><a data-ui-sref="app.ui-list-groups" href="#/app/ui/list-groups">List Groups</a></li>
+					</ul>
+				 </li>
+				 <li><a data-ui-sref="app.grid" href="#/app/grid"><span class="icon"><i class="glyphicon glyphicon-th"></i></span> Grid</a></li>
+				 <li>
+					<a class="collapsed" data-target="#sidebar-maps" data-toggle="collapse" data-parent="#sidebar"><span class="icon"><i class="glyphicon glyphicon-map-marker"></i></span> Maps <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-maps" class="collapse">
+					   <li><a data-ui-sref="app.maps-google" href="#/app/maps/google">Google Maps</a></li>
+					   <li><a data-ui-sref="app.maps-vector" href="#/app/maps/vector">Vector Maps</a></li>
+					</ul>
+				 </li>
+				 <li>
+					<a class="collapsed" data-target="#sidebar-tables" data-toggle="collapse" data-parent="#sidebar"><span class="icon"><i class="fa fa-table"></i></span> Tables <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-tables" class="collapse">
+					   <li><a data-ui-sref="app.tables-basic" href="#/app/tables/basic">Tables Basic</a></li>
+					   <li><a data-ui-sref="app.tables-dynamic" href="#/app/tables/dynamic">Tables Dynamic <sup class="bg-transparent text-danger fs-sm fw-bold">ng</sup></a></li>
+					</ul>
+				 </li>
+				 <li>
+					<a class="collapsed" data-target="#sidebar-extra" data-toggle="collapse" data-parent="#sidebar"><span class="icon"><i class="fa fa-leaf"></i></span> Extra <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-extra" class="collapse">
+					   <li><a data-ui-sref="app.extra-calendar" href="#/app/extra/calendar">Calendar <sup class="bg-transparent text-danger fs-sm fw-bold">ng</sup></a></li>
+					   <li><a data-ui-sref="app.extra-invoice" href="#/app/extra/invoice">Invoice</a></li>
+					   <li><a data-ui-sref="login" href="#/login">Login Page</a></li>
+					   <li><a data-ui-sref="error" href="#/error">Error Page</a></li>
+					   <li><a data-ui-sref="app.extra-gallery" href="#/app/extra/gallery">Gallery <sup class="bg-transparent text-danger fs-sm fw-bold">ng</sup></a></li>
+					   <li><a data-ui-sref="app.extra-search" href="#/app/extra/search">Search Results</a></li>
+					   <li><a data-ui-sref="app.extra-timeline" href="#/app/extra/timeline">Time Line</a></li>
+					</ul>
+				 </li>
+				 <li>
+					<a class="collapsed" data-target="#sidebar-levels" data-toggle="collapse" data-parent="#sidebar"><span class="icon"><i class="fa fa-folder-open"></i></span> Menu Levels <i class="toggle fa fa-angle-down"></i></a>
+					<ul id="sidebar-levels" class="collapse">
+					   <li><a href="">Level 1</a></li>
+					   <li>
+						  <a class="collapsed" data-target="#sidebar-sub-levels" data-toggle="collapse" data-parent="#sidebar-levels">Level 2 <i class="toggle fa fa-angle-down"></i></a>
+						  <ul id="sidebar-sub-levels" class="collapse">
+							 <li><a href="">Level 3</a></li>
+							 <li><a href="">Level 3</a></li>
+						  </ul>
+					   </li>
+					</ul>
+				 </li>
+			  </ul>
+				
+
+			  <h5 class="sidebar-nav-title">Labels <a class="action-link" href="#"><i class="glyphicon glyphicon-plus"></i></a></h5>
+			  <ul class="sidebar-labels">
+				 <li><a href="#"><i class="fa fa-circle text-warning mr-xs"></i> <span class="label-name">My Recent</span></a></li>
+				 <li><a href="#"><i class="fa fa-circle text-gray mr-xs"></i> <span class="label-name">Starred</span></a></li>
+				 <li><a href="#"><i class="fa fa-circle text-danger mr-xs"></i> <span class="label-name">Background</span></a></li>
+			  </ul>
+			  <h5 class="sidebar-nav-title">Projects</h5>
+			  <div class="sidebar-alerts">
+				 <div class="alert fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-hidden="true">×</a> <span class="text-white fw-semi-bold">Sales Report</span><br>
+					<div class="progress progress-xs mt-xs mb-0">
+					   <div class="progress-bar progress-bar-gray-light" style="width: 16%"></div>
+					</div>
+					<small>Calculating x-axis bias... 65%</small>
+				 </div>
+				 <div class="alert fade in">
+					<a href="#" class="close" data-dismiss="alert" aria-hidden="true">×</a> <span class="text-white fw-semi-bold">Personal Responsibility</span><br>
+					<div class="progress progress-xs mt-xs mb-0">
+					   <div class="progress-bar progress-bar-danger" style="width: 23%"></div>
+					</div>
+					<small>Provide required notes</small>
+				 </div>
+			  </div>
+			-->
+		   </div>
+		   <div class="slimScrollBar" style="background: rgb(0, 0, 0); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 116.149px;"></div>
+		   <div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+		</div>
+		<div class="slimScrollBar" style="background: rgb(0, 0, 0); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 116.149px;"></div>
+		<div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+		<div class="slimScrollBar" style="background: rgb(0, 0, 0); width: 4px; position: absolute; top: 0px; opacity: 0.4; display: none; border-radius: 7px; z-index: 99; right: 1px; height: 116.149px;"></div>
+		<div class="slimScrollRail" style="width: 4px; height: 100%; position: absolute; top: 0px; display: none; border-radius: 7px; background: rgb(51, 51, 51); opacity: 0.2; z-index: 90; right: 1px;"></div>
+	 </nav>
 </div>
 
 
 
 
 <script>
-    /*
+    $.getScript( "sing-vendor.js", function( data, textStatus, jqxhr ) {
+
+	});
+	/*
 	$.getScript( "vue.min.js", function( data, textStatus, jqxhr ) {
 		$.getScript( "vue-material.min.js", function( data, textStatus, jqxhr ) {
 			initCustomSidebar = (viewer) => {
