@@ -1,4 +1,5 @@
 initSidebar = (viewer) => {
+	/*
 	//var pcMaterialSize = viewer.scene.pointclouds[0].material.size;
 	var pointcloud = viewer.scene.pointclouds[0];
 	new Vue({
@@ -80,7 +81,7 @@ initSidebar = (viewer) => {
 			}
 		}
 	});
-
+*/
 
 
 
