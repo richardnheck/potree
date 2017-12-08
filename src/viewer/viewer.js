@@ -548,6 +548,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		this.inputHandler = null;
 
 		this.measuringTool = null;
+		this.annotationTool = null;
 		this.profileTool = null;
 		this.volumeTool = null;
 		this.clippingTool =  null;
@@ -568,6 +569,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			this.inputHandler.setScene(this.scene);
 
 			this.measuringTool = new Potree.MeasuringTool(this);
+			this.annotationTool = new Potree.AnnotationTool(this);
 			this.profileTool = new Potree.ProfileTool(this);
 			this.volumeTool = new Potree.VolumeTool(this);
 			this.clippingTool = new Potree.ClippingTool(this);
@@ -578,6 +580,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			this.createControls();
 
 			this.measuringTool.setScene(this.scene);
+			this.annotationTool.setScene(this.scene);
 			this.profileTool.setScene(this.scene);
 			this.volumeTool.setScene(this.scene);
 			this.clippingTool.setScene(this.scene);
@@ -593,6 +596,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			this.addEventListener('scene_changed', (e) => {
 				this.inputHandler.setScene(e.scene);
 				this.measuringTool.setScene(e.scene);
+				this.annotationTool.setScene(e.scene);
 				this.profileTool.setScene(e.scene);
 				this.volumeTool.setScene(e.scene);
 				this.clippingTool.setScene(this.scene);
@@ -1912,10 +1916,12 @@ class PotreeRenderer {
 		viewer.renderer.clearDepth();
 		
 		viewer.measuringTool.update();
+		viewer.annotationTool.update();
 		viewer.profileTool.update();
 		viewer.transformationTool.update();
 		
 		viewer.renderer.render(viewer.measuringTool.sceneMeasurement, activeCam);
+		viewer.renderer.render(viewer.annotationTool.sceneAnnotation, activeCam);
 		viewer.renderer.render(viewer.profileTool.sceneProfile, activeCam);
 		viewer.renderer.render(viewer.transformationTool.sceneTransform, activeCam);
 
@@ -2045,6 +2051,7 @@ class EDLRenderer {
 		}
 
 		viewer.measuringTool.update();
+		viewer.annotationTool.update();
 		viewer.profileTool.update();
 		viewer.transformationTool.update();
 		viewer.volumeTool.update();	
@@ -2103,7 +2110,8 @@ class EDLRenderer {
 		viewer.renderer.clearDepth();
 		viewer.renderer.render(viewer.controls.sceneControls, camera);
 		
-		viewer.renderer.render(viewer.measuringTool.sceneMeasurement, camera);		
+		viewer.renderer.render(viewer.measuringTool.sceneMeasurement, camera);	
+		viewer.renderer.render(viewer.annotationTool.sceneAnnotation, camera);	
 		viewer.renderer.render(viewer.volumeTool.sceneVolume, camera);
 		viewer.renderer.render(viewer.clippingTool.sceneVolume, camera);
 		viewer.renderer.render(viewer.profileTool.sceneProfile, camera);

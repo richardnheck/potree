@@ -53,6 +53,7 @@ var paths = {
 		"src/Version.js",
 		"src/utils/Measure.js",
 		"src/utils/MeasuringTool.js",
+		"src/utils/AnnotationTool.js",
 		"src/utils/Profile.js",
 		"src/utils/ProfileTool.js",
 		"src/utils/TransformationTool.js",

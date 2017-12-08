@@ -99,6 +99,7 @@ initSidebar = (viewer) => {
 	};
 
 	function initToolbar () {
+		console.log('initToolbar...')
 		// ANGLE
 		let elToolbar = $('#tools');
 		elToolbar.append(createToolIcon(
@@ -209,6 +210,25 @@ initSidebar = (viewer) => {
 				viewer.scene.removeAllMeasurements();
 			}
 		));
+
+		console.log('Adding annotation tool...')
+		// ANNOTATION
+		elToolbar.append(createToolIcon(
+			Potree.resourcePath + '/icons/annotation-marker.png',
+			'[title]tt.point_measurement',
+			function () {
+				$('#menu_measurements').next().slideDown();
+				viewer.annotationTool.startInsertion({
+					showDistances: false,
+					showAngles: false,
+					showCoordinates: true,
+					showArea: false,
+					closed: true,
+					maxMarkers: 1,
+					name: 'Point'});
+			}
+		));
+
 	}
 
 	function initClassificationList () {
