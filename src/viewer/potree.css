@@ -536,7 +536,7 @@ body{
 }
 
 .navmenu{
-	background-color: var(--color-2) !important;
+	background-color: #000;/*var(--color-2) !important;*/
 	border-color: var(--color-2) !important;
 }
 
