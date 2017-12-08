@@ -18,6 +18,8 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 
 		this.viewer.inputHandler.registerInteractiveScene(this.sceneAnnotation);
 
+		this.annotation = null;
+
 		this.onRemove = (e) => { this.sceneAnnotation.remove(e.annotation); };
 		this.onAdd = e => { this.sceneAnnotation.add(e.annotation); };
     }
@@ -43,34 +45,56 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
     startInsertion (args = {}) {
 		let domElement = this.viewer.renderer.domElement;
 
-        let annotation = new Potree.AnnotationMarker();
+        this.annotation = new Potree.AnnotationMarker();
         //let annotation = new Potree.Annotation();
 
 		this.dispatchEvent({
 			type: 'start_inserting_annotation',
-			annotation: annotation
+			annotation: this.annotation
 		});
 
-		annotation.showDistances = (args.showDistances == null) ? true : args.showDistances;
-		annotation.showArea = args.showArea || false;
-		annotation.showAngles = args.showAngles || false;
-		annotation.showCoordinates = args.showCoordinates || false;
-		annotation.showHeight = args.showHeight || false;
-		annotation.closed = args.closed || false;
-		annotation.maxMarkers = args.maxMarkers || Infinity;
-		annotation.name = args.name || 'Annotation';
+		this.annotation.showDistances = (args.showDistances == null) ? true : args.showDistances;
+		this.annotation.showArea = args.showArea || false;
+		this.annotation.showAngles = args.showAngles || false;
+		this.annotation.showCoordinates = args.showCoordinates || false;
+		this.annotation.showHeight = args.showHeight || false;
+		this.annotation.closed = args.closed || false;
+		this.annotation.maxMarkers = args.maxMarkers || Infinity;
+		this.annotation.name = args.name || 'Annotation';
+		
+		// Handle when an annotation marker is dropped
+		this.annotation.addEventListener('marker_dropped', (e)=> {
+			let position = e.annotation.points[e.annotation.points.length - 1].position.clone();
 
-		this.sceneAnnotation.add(annotation);
+			// Remove the annotationMarker
+			this.sceneAnnotation.remove(this.annotation);
+			this.annotation = null;
+			
+			
+			$("#annotation-dialog button").click(() => { 
+				// Add the actual annotation
+				let title = $("#annotationTitle").val();
+				let description = $("#annotationDescription").val();
+				console.log('title= ' + title);
+				console.log('description= ' + description);
+				$("#annotation-dialog").dialog('close');
+				this.viewer.scene.addAnnotation(position, { title: title, description: description});
+			});
+			$("#annotation-dialog").dialog();
+			
+		});
+		
+		this.sceneAnnotation.add(this.annotation);
 
 		let cancel = {
-			removeLastMarker: annotation.maxMarkers > 3,
+			removeLastMarker: this.annotation.maxMarkers > 3,
 			callback: null
 		};
 
 		let insertionCallback = (e) => {
             console.log('insertionCallback');
             if (e.button === THREE.MOUSE.LEFT) {
-
+				// NB: This never seems to get called
                 // TODO: Add a real annotation
                 // -------------------------------------------
                 console.log('Adding annotation');
@@ -99,14 +123,14 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 			this.viewer.removeEventListener('cancel_insertions', cancel.callback);
 		};
 
-		if (annotation.maxMarkers > 1) {
+		if (this.annotation.maxMarkers > 1) {
 			this.viewer.addEventListener('cancel_insertions', cancel.callback);
 			domElement.addEventListener('mouseup', insertionCallback, true);
 		}
 
-		annotation.addMarker(new THREE.Vector3(0, 0, 0));
+		this.annotation.addMarker(new THREE.Vector3(0, 0, 0));
 		this.viewer.inputHandler.startDragging(
-			annotation.spheres[annotation.spheres.length - 1]);
+			this.annotation.spheres[this.annotation.spheres.length - 1]);
 
 		//this.viewer.scene.addAnnotation(annotation);
 	}
@@ -115,16 +139,19 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
     update(){
 		let camera = this.viewer.scene.getActiveCamera();
 		let domElement = this.renderer.domElement;
-		let annotations = this.viewer.scene.getAnnotations().descendants();
-
+		//let annotations = this.viewer.scene.getAnnotations().descendants();
         //console.log(annotations);
 		this.light.position.copy(camera.position);
 
-        // make size independant of distance
+		let annotations = [];
+		if(this.annotation != null) {
+			annotations = [this.annotation];
+		}
+
+		// make size independant of distance
 		for (let annotation of annotations) {
 			annotation.lengthUnit = this.viewer.lengthUnit;
 			annotation.update();
-
            
 			// spheres
 			for(let sphere of annotation.spheres){			
@@ -240,8 +267,21 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 					edge.material.gapSize = 10;
 				}
 			}
-
+			/*
+			{ // area label
+				let label = annnotation.areaLabel;
 			
+				let pr = 0;
+				if(viewer.scene.cameraMode == Potree.CameraMode.PERSPECTIVE) {
+					let distance = label.position.distanceTo(camera.position);
+					pr = Potree.utils.projectedRadius(1, camera.fov * Math.PI / 180, distance, domElement.clientHeight);
+				} else {
+					pr = Potree.utils.projectedRadiusOrtho(1, camera.projectionMatrix, domElement.clientWidth, domElement.clientHeight);
+				}
+
+				let scale = (70 / pr);
+				label.scale.set(scale, scale, scale);
+			}*/
 		}
 	}
 }
