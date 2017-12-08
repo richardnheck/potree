@@ -544,7 +544,7 @@ Potree.AnnotationMarker = class Measure extends THREE.Object3D {
 				if (i !== -1) {
 					this.dispatchEvent({
 						'type': 'marker_dropped',
-						'measurement': this,
+						'annotation': this,
 						'index': i
 					});
 				}
