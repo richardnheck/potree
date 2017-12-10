@@ -377,7 +377,10 @@ Potree.Annotation = class Annotation extends THREE.EventDispatcher {
 };
 
 
-Potree.AnnotationMarker = class Measure extends THREE.Object3D {
+
+
+
+Potree.AnnotationMarker = class AnnotationMarker extends THREE.Object3D {
 	constructor () {
 		super();
 
