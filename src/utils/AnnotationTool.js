@@ -2,6 +2,12 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 	constructor (viewer) {
 		super();
 
+		this.annotationDialog = $("#annotation-dialog").dialog({ autoOpen: false,
+			buttons: {
+				OK: () => this.onAnnotationCommited()
+			}
+		});
+			
 		this.viewer = viewer;
 		this.renderer = viewer.renderer;
 
@@ -22,6 +28,18 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 
 		this.onRemove = (e) => { this.sceneAnnotation.remove(e.annotation); };
 		this.onAdd = e => { this.sceneAnnotation.add(e.annotation); };
+
+		this.onAnnotationCommited = () => {
+			//$("#annotation-dialog button").off("click", this.onAnnotationCommited);
+			// Add the actual annotation
+			let title = $("#annotationTitle").val();
+			let description = $("#annotationDescription").val();
+			console.log('title= ' + title);
+			console.log('description= ' + description);
+			this.annotationDialog.dialog('close');
+			console.log('viewer.scene.addAnnotation');
+			this.viewer.scene.addAnnotation(this.annotationPosition, { title: title, description: description});
+		};
     }
 
 
@@ -62,27 +80,22 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 		this.annotation.maxMarkers = args.maxMarkers || Infinity;
 		this.annotation.name = args.name || 'Annotation';
 		
-		// Handle when an annotation marker is dropped
-		this.annotation.addEventListener('marker_dropped', (e)=> {
+		var onAnnotationMarkerDropped = (e) => {
+			console.log('marker dropped');
 			let position = e.annotation.points[e.annotation.points.length - 1].position.clone();
-
+			this.annotationPosition = position;
+			
 			// Remove the annotationMarker
 			this.sceneAnnotation.remove(this.annotation);
 			this.annotation = null;
-			
-			
-			$("#annotation-dialog button").click(() => { 
-				// Add the actual annotation
-				let title = $("#annotationTitle").val();
-				let description = $("#annotationDescription").val();
-				console.log('title= ' + title);
-				console.log('description= ' + description);
-				$("#annotation-dialog").dialog('close');
-				this.viewer.scene.addAnnotation(position, { title: title, description: description});
-			});
-			$("#annotation-dialog").dialog();
-			
-		});
+
+			// Open the Annotation Editor dialog
+			this.annotationDialog.dialog("open");
+		};
+		
+		
+		// Handle when an annotation marker is dropped
+		this.annotation.addEventListener('marker_dropped', onAnnotationMarkerDropped);
 		
 		this.sceneAnnotation.add(this.annotation);
 
