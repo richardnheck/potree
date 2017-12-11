@@ -32,6 +32,7 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 		this.onAnnotationCommited = () => {
 			//$("#annotation-dialog button").off("click", this.onAnnotationCommited);
 			// Add the actual annotation
+			console.log(this.annotationPosition);
 			let title = $("#annotationTitle").val();
 			let description = $("#annotationDescription").val();
 			console.log('title= ' + title);
