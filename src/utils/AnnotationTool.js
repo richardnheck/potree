@@ -30,16 +30,18 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 		this.onAdd = e => { this.sceneAnnotation.add(e.annotation); };
 
 		this.onAnnotationCommited = () => {
-			//$("#annotation-dialog button").off("click", this.onAnnotationCommited);
 			// Add the actual annotation
-			console.log(this.annotationPosition);
 			let title = $("#annotationTitle").val();
 			let description = $("#annotationDescription").val();
-			console.log('title= ' + title);
-			console.log('description= ' + description);
+			
 			this.annotationDialog.dialog('close');
-			console.log('viewer.scene.addAnnotation');
-			this.viewer.scene.addAnnotation(this.annotationPosition, { title: title, description: description});
+
+			this.viewer.scene.addAnnotation(this.annotationPosition, { 
+				title: title, 
+				description: description,
+				cameraPosition: this.viewer.scene.view.position.toArray(),
+				cameraTarget: this.viewer.scene.view.getPivot().toArray()
+			});
 		};
     }
 
@@ -65,88 +67,57 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 		let domElement = this.viewer.renderer.domElement;
 
         this.annotation = new Potree.AnnotationMarker();
-        //let annotation = new Potree.Annotation();
 
 		this.dispatchEvent({
 			type: 'start_inserting_annotation',
 			annotation: this.annotation
 		});
 
-		this.annotation.showDistances = (args.showDistances == null) ? true : args.showDistances;
-		this.annotation.showArea = args.showArea || false;
-		this.annotation.showAngles = args.showAngles || false;
 		this.annotation.showCoordinates = args.showCoordinates || false;
 		this.annotation.showHeight = args.showHeight || false;
-		this.annotation.closed = args.closed || false;
-		this.annotation.maxMarkers = args.maxMarkers || Infinity;
-		this.annotation.name = args.name || 'Annotation';
+		console.log('this.annotation.showCoordinates = ' + this.annotation.showCoordinates);
+		console.log('this.annotation.showHeight = '  + this.annotation.showHeight);
 		
-		var onAnnotationMarkerDropped = (e) => {
-			console.log('marker dropped');
-			let position = e.annotation.points[e.annotation.points.length - 1].position.clone();
-			this.annotationPosition = position;
-			
-			// Remove the annotationMarker
-			this.sceneAnnotation.remove(this.annotation);
-			this.annotation = null;
-
-			// Open the Annotation Editor dialog
-			this.annotationDialog.dialog("open");
-		};
-		
-		
-		// Handle when an annotation marker is dropped
-		this.annotation.addEventListener('marker_dropped', onAnnotationMarkerDropped);
-		
+		// Add the annotation marker to the scene
 		this.sceneAnnotation.add(this.annotation);
 
 		let cancel = {
-			removeLastMarker: this.annotation.maxMarkers > 3,
 			callback: null
 		};
 
 		let insertionCallback = (e) => {
             console.log('insertionCallback');
             if (e.button === THREE.MOUSE.LEFT) {
-				// NB: This never seems to get called
-                // TODO: Add a real annotation
-                // -------------------------------------------
-                console.log('Adding annotation');
-                this.viewer.scene.addAnnotation({ title: 'Annotation 1', description: ''});
-                // -------------------------------------------
-/*
-				annotation.addMarker(annotation.points[annotation.points.length - 1].position.clone());
-
-				if (annotation.points.length >= annotation.maxMarkers) {
-					cancel.callback();
-				}
-
-				this.viewer.inputHandler.startDragging(
-                    annotation.spheres[annotation.spheres.length - 1]);
-                    */
+				let position = this.annotation.points[0].position.clone();
+				this.annotationPosition = position;
+				
+				// Open the Annotation Editor dialog
+				this.annotationDialog.dialog("open");
+				
+				cancel.callback();		// call to remove marker and listeners
 			} else if (e.button === THREE.MOUSE.RIGHT) {
-				cancel.callback();
+				cancel.callback();		// call to remove marker and listeners
 			}
 		};
 
 		cancel.callback = e => {
-			if (cancel.removeLastMarker) {
-				annotation.removeMarker(annotation.points.length - 1);
-			}
+			console.log('cancel.callback');
+			// Remove the annotation marker from the scene
+			this.sceneAnnotation.remove(this.annotation);
+			this.annotation = null;
+
+			// Remove event listeners
 			domElement.removeEventListener('mouseup', insertionCallback, true);
 			this.viewer.removeEventListener('cancel_insertions', cancel.callback);
 		};
 
-		if (this.annotation.maxMarkers > 1) {
-			this.viewer.addEventListener('cancel_insertions', cancel.callback);
-			domElement.addEventListener('mouseup', insertionCallback, true);
-		}
+		
+		this.viewer.addEventListener('cancel_insertions', cancel.callback);
+		domElement.addEventListener('mouseup', insertionCallback, true);
+		
 
 		this.annotation.addMarker(new THREE.Vector3(0, 0, 0));
-		this.viewer.inputHandler.startDragging(
-			this.annotation.spheres[this.annotation.spheres.length - 1]);
-
-		//this.viewer.scene.addAnnotation(annotation);
+		this.viewer.inputHandler.startDragging(this.annotation.spheres[this.annotation.spheres.length - 1]);
 	}
     
 
@@ -179,7 +150,7 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 				let scale = (15 / pr);
 				sphere.scale.set(scale, scale, scale);
 			}
-
+/*
 			// labels
 			let labels = annotation.edgeLabels.concat(annotation.angleLabels);
 			for(let label of labels){
@@ -193,6 +164,7 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 				let scale = (70 / pr);
 				label.scale.set(scale, scale, scale);
 			}
+*/
 
 			// coordinate labels
 			for (let j = 0; j < annotation.coordinateLabels.length; j++) {
@@ -232,6 +204,7 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 				label.scale.set(scale, scale, scale);
 			}
 
+			/*
 			// height label
 			if (annotation.showHeight) {
 				let label = annotation.heightLabel;
@@ -281,6 +254,7 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 					edge.material.gapSize = 10;
 				}
 			}
+			*/
 			/*
 			{ // area label
 				let label = annnotation.areaLabel;
