@@ -219,13 +219,9 @@ initSidebar = (viewer) => {
 			function () {
 				$('#menu_measurements').next().slideDown();
 				viewer.annotationTool.startInsertion({
-					showDistances: false,
-					showAngles: false,
-					showCoordinates: true,
-					showArea: false,
-					closed: true,
-					maxMarkers: 1,
-					name: 'Point'});
+					showHeight: false,				// Set true to show z height
+					showCoordinates: true			// Set true to show x/y/z
+				});
 			}
 		));
 
@@ -1068,7 +1064,7 @@ initSidebar = (viewer) => {
 					if (annotation.hasView()) {
 						let action = new Potree.Action({
 							'icon': Potree.resourcePath + '/icons/target.svg',
-							'onclick': (e) => { annotation.moveHere(viewer.scene.camera); }
+							'onclick': (e) => { annotation.moveHere(viewer.scene.getActiveCamera()); }
 						});
 
 						actions.push(action);
