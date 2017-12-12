@@ -201,6 +201,11 @@ Potree.Annotation = class Annotation extends THREE.EventDispatcher {
 	remove (annotation) {
 		this.children = this.children.filter(e => e !== annotation);
 		annotation.parent = null;
+		annotation.domElement.remove();
+		this.dispatchEvent({
+			'type': 'annotation_removed',
+			'annotation': annotation
+		});
 	}
 
 	updateBounds () {
