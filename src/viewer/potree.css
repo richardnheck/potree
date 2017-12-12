@@ -565,7 +565,7 @@ body{
 	background-color: var(--color-1) !important;
 	background: #f6f6f6 50% 50% repeat-x;
 	border: none;
-	color: var(--color-2);
+	color: black !important;
 	padding: 4px 10px 4px 30px;
 	cursor: pointer;
 }
