@@ -210,21 +210,6 @@ initSidebar = (viewer) => {
 				viewer.scene.removeAllMeasurements();
 			}
 		));
-
-		console.log('Adding annotation tool...')
-		// ANNOTATION
-		elToolbar.append(createToolIcon(
-			Potree.resourcePath + '/icons/annotation-marker.png',
-			'[title]tt.point_measurement',
-			function () {
-				$('#menu_measurements').next().slideDown();
-				viewer.annotationTool.startInsertion({
-					showHeight: false,				// Set true to show z height
-					showCoordinates: true			// Set true to show x/y/z
-				});
-			}
-		));
-
 	}
 
 	function initClassificationList () {
@@ -1000,9 +985,26 @@ initSidebar = (viewer) => {
 	}
 
 	function initAnnotationDetails () {
-		// annotation_details
+		viewer.registerTool(new Potree.AnnotationTool());
 		let annotationPanel = $('#annotation_details');
+		
+		console.log('Adding annotation tool...')
+		let annotationToolBar = $('<div style="padding:5px;height:50px;width:100%;"></div>');
+		annotationToolBar.insertBefore(annotationPanel);
+		annotationToolBar.append(createToolIcon(
+			Potree.resourcePath + '/icons/annotation-marker.png',
+			'[title]tt.point_measurement',
+			function () {
+				//$('#menu_measurements').next().slideDown();
+				let tool = viewer.getRegisteredTool('AnnotationTool');
+				tool.startInsertion({
+					showHeight: false,				// Set true to show z height
+					showCoordinates: true			// Set true to show x/y/z
+				});
+			}
+		));
 
+		// annotation_details
 		let registeredEvents = [];
 
 		let rebuild = () => {
@@ -1051,6 +1053,7 @@ initSidebar = (viewer) => {
 								${annotation.title}
 							</span>
 						</span>
+						
 					</div>
 				`);
 
@@ -1069,6 +1072,12 @@ initSidebar = (viewer) => {
 
 						actions.push(action);
 					}
+
+					let action = new Potree.Action({
+						'icon': Potree.resourcePath + '/icons/close.svg',
+						'onclick': (e) => { viewer.scene.removeAnnotation(annotation); }
+					});
+					actions.push(action);
 				}
 
 				for (let action of annotation.actions) {
@@ -1178,11 +1187,11 @@ initSidebar = (viewer) => {
 		viewer.addEventListener('scene_changed', e => {
 			e.oldScene.annotations.removeEventListener('annotation_added', annotationsChanged);
 			e.scene.annotations.addEventListener('annotation_added', annotationsChanged);
-
 			rebuild();
 		});
 
 		viewer.scene.annotations.addEventListener('annotation_added', annotationsChanged);
+		viewer.scene.annotations.addEventListener('annotation_removed', annotationsChanged);
 
 		rebuild();
 	}
