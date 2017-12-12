@@ -450,6 +450,12 @@ Potree.Scene = class extends THREE.EventDispatcher{
 		this.annotations.add(annotation);
 	}
 
+
+	removeAnnotation(annotation) {
+		this.annotations.remove(annotation);
+	}
+
+
 	getAnnotations () {
 		return this.annotations;
 	};
@@ -548,7 +554,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		this.inputHandler = null;
 
 		this.measuringTool = null;
-		this.annotationTool = null;
+		//this.annotationTool = null;
 		this.profileTool = null;
 		this.volumeTool = null;
 		this.clippingTool =  null;
@@ -569,7 +575,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			this.inputHandler.setScene(this.scene);
 
 			this.measuringTool = new Potree.MeasuringTool(this);
-			this.annotationTool = new Potree.AnnotationTool(this);
+			//this.annotationTool = new Potree.AnnotationTool(this);
 			this.profileTool = new Potree.ProfileTool(this);
 			this.volumeTool = new Potree.VolumeTool(this);
 			this.clippingTool = new Potree.ClippingTool(this);
@@ -580,7 +586,7 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			this.createControls();
 
 			this.measuringTool.setScene(this.scene);
-			this.annotationTool.setScene(this.scene);
+			//this.annotationTool.setScene(this.scene);
 			this.profileTool.setScene(this.scene);
 			this.volumeTool.setScene(this.scene);
 			this.clippingTool.setScene(this.scene);
@@ -596,10 +602,14 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 			this.addEventListener('scene_changed', (e) => {
 				this.inputHandler.setScene(e.scene);
 				this.measuringTool.setScene(e.scene);
-				this.annotationTool.setScene(e.scene);
+				//this.annotationTool.setScene(e.scene);
 				this.profileTool.setScene(e.scene);
 				this.volumeTool.setScene(e.scene);
 				this.clippingTool.setScene(this.scene);
+
+				this.tools.forEach((tool) => {
+					tool.setScene(e.scene);				
+				});
 				
 				if(!e.scene.hasEventListener("pointcloud_added", onPointcloudAdded)){
 					e.scene.addEventListener("pointcloud_added", onPointcloudAdded);
@@ -632,11 +642,37 @@ Potree.Viewer = class PotreeViewer extends THREE.EventDispatcher{
 		
 		this.loadGUI = this.loadGUI.bind(this);
 		
+		this.tools = [];
 	}
 
 	// ------------------------------------------------------------------------------------
 	// Viewer API
 	// ------------------------------------------------------------------------------------
+	/**
+	 * Register an external tool
+	 * @param {*} tool 
+	 */
+	registerTool(tool) {
+		tool.initialise(this);
+		tool.setScene(this.scene);
+		this.tools.push(tool);
+	}
+
+
+	/**
+	 * Get a registered tool by its name
+	 * @param {*} name 
+	 */
+	getRegisteredTool(name) {
+		let tool = this.tools.find((tool) => { return tool.name == name;});
+		if(tool == undefined) {
+			tool = null;
+		}
+		return tool;
+	}
+	
+	
+	
 	renderToImage() {
 		requestAnimationFrame(this.renderToImage.bind(this));
 		this.renderer.render(this.scene, this.scene.getActiveCamera());
@@ -1916,14 +1952,20 @@ class PotreeRenderer {
 		viewer.renderer.clearDepth();
 		
 		viewer.measuringTool.update();
-		viewer.annotationTool.update();
+		//viewer.annotationTool.update();
 		viewer.profileTool.update();
 		viewer.transformationTool.update();
 		
 		viewer.renderer.render(viewer.measuringTool.sceneMeasurement, activeCam);
-		viewer.renderer.render(viewer.annotationTool.sceneAnnotation, activeCam);
+		//viewer.renderer.render(viewer.annotationTool.sceneAnnotation, activeCam);
 		viewer.renderer.render(viewer.profileTool.sceneProfile, activeCam);
 		viewer.renderer.render(viewer.transformationTool.sceneTransform, activeCam);
+
+		viewer.tools.forEach((tool) => {
+			tool.update();
+			viewer.renderer.render(tool.getToolScene(), activeCam);
+		});
+
 
 		viewer.renderer.setViewport(viewer.renderer.domElement.clientWidth - viewer.navigationCube.width, 
 									viewer.renderer.domElement.clientHeight - viewer.navigationCube.width, 
@@ -2051,10 +2093,13 @@ class EDLRenderer {
 		}
 
 		viewer.measuringTool.update();
-		viewer.annotationTool.update();
+		//viewer.annotationTool.update();
 		viewer.profileTool.update();
 		viewer.transformationTool.update();
 		viewer.volumeTool.update();	
+		viewer.tools.forEach((tool)=> {
+			tool.update();
+		});
 		
 		viewer.renderer.render(viewer.scene.scene, camera);
 		
@@ -2111,12 +2156,16 @@ class EDLRenderer {
 		viewer.renderer.render(viewer.controls.sceneControls, camera);
 		
 		viewer.renderer.render(viewer.measuringTool.sceneMeasurement, camera);	
-		viewer.renderer.render(viewer.annotationTool.sceneAnnotation, camera);	
+		//viewer.renderer.render(viewer.annotationTool.sceneAnnotation, camera);	
 		viewer.renderer.render(viewer.volumeTool.sceneVolume, camera);
 		viewer.renderer.render(viewer.clippingTool.sceneVolume, camera);
 		viewer.renderer.render(viewer.profileTool.sceneProfile, camera);
 		viewer.renderer.render(viewer.transformationTool.sceneTransform, camera);
+		viewer.tools.forEach((tool) => {
+			viewer.renderer.render(tool.getToolScene(), camera);
+		});
 		
+
 		viewer.renderer.setViewport(viewer.renderer.domElement.clientWidth - viewer.navigationCube.width, 
 									viewer.renderer.domElement.clientHeight - viewer.navigationCube.width, 
 									viewer.navigationCube.width, viewer.navigationCube.width);
