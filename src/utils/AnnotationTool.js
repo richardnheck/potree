@@ -1,7 +1,12 @@
 Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
-	constructor (viewer) {
+	constructor () {
 		super();
+		this.name = "AnnotationTool";
+		this.initialised = false;
+	}
 
+	
+	initialise(viewer) {
 		this.annotationDialog = $("#annotation-dialog").dialog({ autoOpen: false,
 			buttons: {
 				OK: () => this.onAnnotationCommited()
@@ -43,9 +48,23 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 				cameraTarget: this.viewer.scene.view.getPivot().toArray()
 			});
 		};
-    }
+
+		this.initialised = true;
+	}
 
 
+	/**
+	 * Get the scene specific to the tool
+	 */
+	getToolScene() {
+		return this.sceneAnnotation;
+	}
+
+
+	/**
+	 * Set the scene
+	 * @param {*} scene 
+	 */
     setScene (scene) {
 		if (this.scene === scene) {
 			return;
@@ -121,7 +140,11 @@ Potree.AnnotationTool = class AnnotationTool extends THREE.EventDispatcher {
 	}
     
 
-    update(){
+    update() {
+		if(!this.initialised) {
+			console.log('Annotation Tool not initialised');
+			return;
+		}
 		let camera = this.viewer.scene.getActiveCamera();
 		let domElement = this.renderer.domElement;
 		//let annotations = this.viewer.scene.getAnnotations().descendants();
