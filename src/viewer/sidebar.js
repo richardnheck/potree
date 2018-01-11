@@ -361,13 +361,13 @@ initSidebar = (viewer) => {
 		let lblMoveSpeed = $('#lblMoveSpeed');
 
 		elNavigation.append(createToolIcon(
-			Potree.resourcePath + '/icons/earth_controls_1.png',
+			Potree.resourcePath + '/icons/earth_controls.svg',
 			'[title]tt.earth_control',
 			function () { viewer.setNavigationMode(Potree.EarthControls); }
 		));
 
 		elNavigation.append(createToolIcon(
-			Potree.resourcePath + '/icons/fps_controls.png',
+			Potree.resourcePath + '/icons/fps_controls.svg',
 			'[title]tt.flight_control',
 			function () { viewer.setNavigationMode(Potree.FirstPersonControls); }
 		));
