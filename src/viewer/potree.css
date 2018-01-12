@@ -898,23 +898,83 @@ label:hover{
 /**
  * Synth 3d - Sing Template Overrides 
  */
-body { font-weight:300;}
+body { 	font-family: 'Open Sans', sans-serif; font-weight:300; }
 
  #sidebar_header { display:none;}
  #menu_about { display:none;}
  
+ .navmenu { background-color: var(--color-1) !important;}
+
  /*.accordion-header { background-color:#242424;}*/
- .accordion > h3 { line-height: 35px;}
+ .accordion > h3 { line-height: 35px; font-family: 'Open Sans', sans-serif; font-size:14px;}
  .accordion { color: var(--color-2);}
  .accordion > h3:hover{ background-color:#000 !important;color:#f2be35;}
  
  #navigation img { height:43px !important; width:43px !important;}
  #tools img { height:40px !important; width:40px !important;}
 
+ .ui-widget { font-family:  'Open Sans', sans-serif !important;}
 
- #sldPointBudget, #sldFOV, #sldEDLRadius, #sldEDLStrength, #sldMoveSpeed  {background-color:#5d8fc2 !important;}
+ /* Style the sliders */
+ #sldPointBudget, #sldFOV, #sldEDLRadius, #sldEDLStrength, #sldMoveSpeed  {
+	 background-color:#5d8fc2 !important;
+	 border-radius: 5px;
+	 border: none;
+	 height:3px;
+	 margin-top: 8px;
+}
 
- .ui-slider .ui-slider-handle {
-    height: 0.5em !important;
-    margin-top: 4px;
+.ui-slider { height:5px;}
+/*
+.ui-slider .ui-slider-handle {
+    height: 9px !important;
+	margin-top: 4px;
+	border:1px solid #fff !important;
+	background:#fff !important;
+	touch-action: none;
+}*/
+
+.ui-state-hover { border: 1px solid #fff !important;}
+
+.ui-slider-handle {
+	top:-0.4em !important;
+    position: absolute;
+    width: 26px;
+    height: 26px;
+    background-color: #fff;
+    background-image: none;
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 3px rgba(0,0,0,.5);
+	border: 0 solid transparent;
+	border-radius: 50% !important;
+}
+.ui-slider-handle {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+    background-color: #337ab7;
+    background-image: -webkit-linear-gradient(top,#149bdf 0%,#0480be 100%);
+    background-image: -o-linear-gradient(top,#149bdf 0%,#0480be 100%);
+    background-image: linear-gradient(to bottom,#149bdf 0%,#0480be 100%);
+    background-repeat: repeat-x;
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff149bdf', endColorstr='#ff0480be', GradientType=0);
+    filter: none;
+    -webkit-box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.2), 0 1px 2px rgba(0,0,0,.05);
+    border: 0 solid transparent;
+}
+
+
+
+/* Add FontAwesome icons to the accordion headers */
+#menu_appearance, #menu_tools, #menu_measurements, #menu_scene, #menu_classification { position:relative; }    
+#menu_appearance:before, #menu_tools:before, #menu_measurements:before, #menu_scene:before, #menu_classification:before { font-family: FontAwesome; left:5px; position:absolute; top:5px; }
+#menu_appearance:before {  content: "\f108";  /* fa-desktop */ }
+#menu_tools:before { content: "\f0ad";  /* fa-wrench */ }
+#menu_measurements:before { content: "\f044";  /* fa-edit */ }
+#menu_scene:before { content: "\f0c2";  /* fa-cloud */ }
+#menu_classification:before { content: "\f0b0";  /* fa-filter */ }
+
+
+input[type=radio]:checked+label {
+    color: #dd5826 !important;
 }
