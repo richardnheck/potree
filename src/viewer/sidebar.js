@@ -218,11 +218,13 @@ initSidebar = (viewer) => {
 		let addClassificationItem = function (code, name) {
 			let inputID = 'chkClassification_' + code;
 
+			/* Synth 3d */
 			let element = $(`
 				<li>
-					<label style="whitespace: nowrap">
+					<label style="whitespace: nowrap" class="checkbox-container">
+						${name}
 						<input id="${inputID}" type="checkbox" checked/>
-						<span>${name}</span>
+						<span class="checkmark"></span>
 					</label>
 				</li>
 			`);
