@@ -84,6 +84,7 @@ var paths = {
 	],
 	html: [
 		"src/viewer/potree.css",
+		"src/viewer/custom.css",
 		"src/viewer/sidebar.html",
 		"src/viewer/profile.html"
 	],
@@ -190,6 +191,7 @@ gulp.task('copy', function () {
     gulp.src('./build/potree/potree.js')
 		.pipe(gulp.dest('../../potree-clouds/libs/potree/'));
 		gulp.src('./src/viewer/potree.css').pipe(gulp.dest('../../potree-clouds/libs/potree/'));
+		gulp.src('./src/viewer/custom.css').pipe(gulp.dest('../../potree-clouds/libs/potree/'));
 	gulp.src('./src/viewer/sidebar.html').pipe(gulp.dest('../../potree-clouds/libs/potree/'));
 	gulp.src('./src/viewer/sidebar-custom.html').pipe(gulp.dest('../../potree-clouds/libs/potree/'));
 	gulp.src('./src/viewer/sidebar-custom2.html').pipe(gulp.dest('../../potree-clouds/libs/potree/'));
